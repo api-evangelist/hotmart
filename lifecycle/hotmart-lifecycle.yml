@@ -1,0 +1,70 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  https://developers.hotmart.com/docs/en/changelog,
+  https://developers.hotmart.com/docs/en/tos/, https://status.hotmart.com/ —
+  versioning and lifecycle posture read from Hotmart's own developer surface.
+versioning:
+  scheme: uri-path
+  current: v1
+  also_shipping:
+    - v2 (partial) — /club/api/v2/modules/{module_id}/pages
+    - v2 (partial) — /physicalproducts/api/v2/product
+  mechanism: >-
+    The major version is a path segment after the product prefix, e.g.
+    /payments/api/v1/subscriptions. Versions are introduced per-surface, not
+    across the whole API at once; v1 and v2 of the same resource coexist and are
+    documented side by side with a version swapper in the docs.
+  event_versioning:
+    scheme: event-schema version
+    versions: ['1.0.0', '2.0.0']
+    mechanism: >-
+      Webhook payload version is chosen when the webhook configuration is
+      created and echoed in the `version` field of every delivery. 2.0.0 is
+      where all new fields have landed since 2022; 1.0.0 remains documented.
+  docs: https://developers.hotmart.com/docs/en/changelog
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  notes: >-
+    Hotmart publishes no deprecation policy, no notice period, and no RFC 8594
+    Sunset/Deprecation header support. The changelog is additive — of the 83
+    published entries, 60 are "Added", 17 "Changed", 5 "Fixed" and 1 "Security";
+    none announces a removal or a breaking change. Older surfaces (webhook 1.0.0, club pages v1, physical product v1)
+    are left in place alongside their successors rather than sunset. An
+    integrator has no published signal for when an older version will stop
+    working.
+sla:
+  url: null
+  uptime_target: null
+  notes: >-
+    No numeric uptime commitment is published on the developer surface. The
+    Terms of Use at https://developers.hotmart.com/docs/en/tos/ govern API use.
+status_page: https://status.hotmart.com/
+status_page_notes: >-
+  First-party Hotmart status page (not a Statuspage.io tenant); it is a
+  client-rendered application and exposes no machine-readable status JSON at the
+  Statuspage /api/v2/status.json convention.
+changelog: https://developers.hotmart.com/docs/en/changelog
+changelog_detail: changelog/hotmart-changelog.yml
+support:
+  help_center: https://help.hotmart.com/en
+  contact: https://help.hotmart.com/en/contact-us
+  faq: https://developers.hotmart.com/docs/en/faq
+  notes: >-
+    Escalation is via the Hotmart support team; the docs ask for the full
+    request and the error received. There is no developer-specific support
+    channel, forum or community listed.
+terms_of_use: https://developers.hotmart.com/docs/en/tos/
+deprecated_operations: []
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/changelog
+    - https://developers.hotmart.com/docs/en/tos/
+    - https://developers.hotmart.com/docs/en/faq
+    - https://help.hotmart.com/en
+  probe:
+    - {url: 'https://status.hotmart.com/', http_status: 200, content_type: text/html}
+    - {url: 'https://status.hotmart.com/api/v2/status.json', http_status: 200, result: HTML shell, machine_readable: false}

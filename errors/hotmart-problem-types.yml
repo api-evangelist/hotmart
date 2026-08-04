@@ -1,0 +1,118 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/start/http-response-codes/
+docs: https://developers.hotmart.com/docs/en/start/http-response-codes/
+format: proprietary
+format_note: >-
+  Hotmart does not use RFC 9457 application/problem+json. Errors are returned as
+  a plain application/json object with `error`, `error_description` and
+  `error_uri`. `error_uri` links back into the Hotmart documentation, which is
+  the closest analogue to a problem `type` URI.
+envelope:
+  media_type: application/json
+  fields:
+    error: machine-readable error type (the values enumerated below)
+    error_description: human-readable message with more detail
+    error_uri: documentation link for the error code received
+  observed_example: >-
+    {"error_description":"Full authentication is required to access this
+    resource.","error_uri":"https://developers.hotmart.com/docs/en/start/http-response-codes/","error":"unauthorized"}
+success_codes:
+  - status: 200
+    title: OK
+    description: Success. Everything went as planned.
+  - status: 201
+    title: Created
+    description: Like 200, but returned when a new resource was created.
+problems:
+  - status: 400
+    type: invalid_parameter
+    title: Bad Request — invalid parameter
+    detail: The request sent has something invalid.
+  - status: 400
+    type: invalid_value_parameter
+    title: Bad Request — invalid query-string value
+    detail: The request sent has an invalid query-string value.
+  - status: 400
+    type: invalid_value_headers
+    title: Bad Request — invalid header value
+    detail: The request sent has an invalid header value.
+  - status: 400
+    type: invalid_token
+    title: Bad Request — invalid page token
+    detail: The value of the page_token pagination parameter is invalid.
+    remediation: >-
+      Re-read page_info.next_page_token / page_info.prev_page_token from the
+      previous response rather than constructing or persisting cursors.
+  - status: 401
+    type: unauthorized
+    title: Unauthorized
+    detail: >-
+      Authentication is required to continue. Usually the access token was not
+      sent in the Authorization header of the request.
+    remediation: >-
+      Send `Authorization: Bearer <access_token>` on every request.
+  - status: 401
+    type: token_expired
+    title: Access token expired
+    detail: The access token used has expired.
+    remediation: >-
+      Handle this status by re-running the client_credentials token request
+      against https://api-sec-vlc.hotmart.com/security/oauth/token, then retry.
+  - status: 401
+    type: invalid_token
+    title: Invalid access token
+    detail: The access token used is in some way invalid.
+  - status: 403
+    type: unauthorized_client
+    title: Forbidden
+    detail: The user does not have permission to continue with this request.
+  - status: 404
+    type: not_found
+    title: Not Found
+    detail: The URL requested was not found and is in some way invalid.
+  - status: 405
+    type: method_not_allowed
+    title: Method Not Allowed
+    detail: >-
+      The HTTP method used is known to the server but cannot be used on this
+      endpoint.
+    source: https://developers.hotmart.com/docs/en/start/sandbox/
+  - status: 429
+    type: too_many_requests
+    title: Too Many Requests
+    detail: >-
+      Too many requests were made at the same time. The default allowance is 500
+      calls per minute across reads and writes.
+    remediation: >-
+      Back off using RateLimit-Reset / X-RateLimit-Remaining-Minute response
+      headers. See rate-limits/hotmart-rate-limits.yml.
+  - status: 500
+    type: internal_server_error
+    title: Server Error
+    detail: An unexpected error occurred and the request could not be completed.
+  - status: 502
+    type: internal_server_error
+    title: Bad Gateway
+    detail: >-
+      The request took more than 30 seconds to search the database. Hotmart
+      recommends narrowing the queried data and/or applying more filters.
+    remediation: Reduce the date range, add filters, or lower max_results.
+  - status: 503
+    type: internal_server_error
+    title: Service Unavailable
+    detail: An internal error occurred and the API is unavailable for all users. Retry later.
+webhook_delivery_errors:
+  docs: https://developers.hotmart.com/docs/en/1.0.0/webhook/http-response-codes-webhook/
+  note: >-
+    The webhook surface documents its own response-code expectations for the
+    receiving endpoint separately from the REST error catalog above.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/start/http-response-codes/
+    - https://developers.hotmart.com/docs/en/start/sandbox/
+  probe:
+    - url: https://sandbox.hotmart.com/payments/api/v1/subscriptions
+      http_status: 401
+      body_error: unauthorized

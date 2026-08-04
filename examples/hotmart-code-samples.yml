@@ -1,0 +1,917 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/ — request code samples published by Hotmart on each endpoint
+  page (Gatsby static-query asset code_examples/*.md), harvested verbatim
+description: 'Hotmart publishes a runnable request sample for every documented endpoint, in cURL, Node
+  and Java, alongside a JSON response sample. Hotmart ships no OpenAPI/Swagger document, so these samples
+  are the closest thing to a machine-readable contract the provider publishes: each carries the real HTTP
+  method, the real host and path, and the real query/body shape for the operation.'
+note: Placeholder values (:client_id, :subscriber_code, {module_id}) are Hotmart's own documentation placeholders,
+  preserved verbatim.
+sample_languages:
+- cURL
+- Node
+- Java
+- json (responses)
+counts:
+  documented_request_samples: 67
+  total_sample_blocks: 458
+  sample_files: 142
+examples:
+- name: app-auth-request
+  category: Authentication
+  method: POST
+  url: https://api-sec-vlc.hotmart.com/security/oauth/token?grant_type=client_credentials&client_id=:client_id&client_secret=:client_secret
+  doc: start/app-auth-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://api-sec-vlc.hotmart.com/security/oauth/token?grant_type=client_credentials&client_id=:client_id&client_secret=:client_secret'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Basic :basic'"
+- name: cancel-subscription-request
+  category: Subscriptions
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/cancel
+  doc: v1/subscription/cancel-subscription-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/cancel'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n    \"send_mail\": :send_mail\n}'"
+- name: cancel-subscriptions-request
+  category: Subscriptions
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/cancel
+  doc: v1/subscription/cancel-subscriptions-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/subscriptions/cancel'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"subscriber_code\": [\":subscriber_code\"],\n  \"send_mail\": :send_mail\n\
+    }'"
+- name: canceled-subscription-step-01
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions?status=CANCELLED_BY_CUSTOMER&status=CANCELLED_BY_SELLER&status=CANCELLED_BY_ADMIN&cancelation_date=1656633600&end_cancelation_date=1664582399
+  doc: tutorials/canceled-subscription-step-01.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions?status=CANCELLED_BY_CUSTOMER&status=CANCELLED_BY_SELLER&status=CANCELLED_BY_ADMIN&cancelation_date=1656633600&end_cancelation_date=1664582399'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: canceled-subscription-step-02.1
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/purchases
+  doc: tutorials/canceled-subscription-step-02.1.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/purchases'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: canceled-subscription-step-02.2
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/users?transaction=HP12345678910111
+  doc: tutorials/canceled-subscription-step-02.2.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/users?transaction=HP12345678910111'\
+    \ \\\n  --header 'Content-Type: application/json' \\\n  --header 'Authorization: Bearer :access_token'"
+- name: change-due-day-request
+  category: Subscriptions
+  method: PATCH
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code
+  doc: v1/subscription/change-due-day-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PATCH 'https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"due_day\": :due_day\n}'"
+- name: charge-by-offer-request
+  category: Payment Link
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/link/token/charge/offer
+  doc: v1/payment-link/charge-by-offer-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/link/token/charge/offer'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"token\": :token,\n  \"sck\": :sck,\n  \"offer_code\": :offer_code\n}'"
+- name: charge-by-value-request
+  category: Payment Link
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/link/token/charge/value
+  doc: v1/payment-link/charge-by-value-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/link/token/charge/value'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"token\": :token,\n  \"sck\": :sck,\n  \"value\": :value\n}'"
+- name: club-engagement-step-01
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain
+  doc: tutorials/club-engagement-step-01.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: club-engagement-step-02
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain&email=assinante@gmail.com
+  doc: tutorials/club-engagement-step-02.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain&email=assinante@gmail.com'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: create-pl-additional-offer-request
+  category: Payment Link
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/link/:payment_link_ucode/offer
+  doc: v1/payment-link/create-pl-additional-offer-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/link/:payment_link_ucode/offer'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"offer_name\": :offer_name,\n  \"value\": :value,\n  \"currency\": :currency,\n\
+    \  \"is_main_offer\": :is_main_offer\n}'"
+- name: create-pl-additional-plan-request
+  category: Payment Link
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/link/:payment_link_ucode/plan
+  doc: v1/payment-link/create-pl-additional-plan-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/link/:payment_link_ucode/plan'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"name\": :name,\n  \"value\": :value,\n  \"periodicity\": :periodicity,\n\
+    \  \"billing_configuration\": {\n    \"billing_type\": :billing_type,\n    \"max_number_of_payments\"\
+    : :max_number_of_payments\n  },\n  \"trial\": {\n    \"trial_type\": :trial_type,\n    \"trial_period\"\
+    : :trial_period\n  }\n}'"
+- name: create-pl-request
+  category: Payment Link
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/link
+  doc: v1/payment-link/create-pl-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/link' \\\n--header\
+    \ 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json' \\\n--data-raw\
+    \ '{\n  \"name\": :name,\n  \"value\": :value,\n  \"currency\": :currency,\n  \"checkout_configuration\"\
+    : {\n    \"is_offer_pix\": :is_offer_pix,\n    \"is_offer_paypal\": :is_offer_paypal,\n    \"is_offer_balance\"\
+    : :is_offer_balance,\n    \"is_hotmart_can_send_notification_for_buyer\": :is_hotmart_can_send_notification_for_buyer,\n\
+    \    \"offer_billet\": {\n      \"is_offer_billet\": :is_offer_billet,\n      \"weekdays\": [ \":weekdays\"\
+    \ ]\n    },\n    \"custom_thanks_page\": {\n      \"purchase_approved_url\": :purchase_approved_url,\n\
+    \      \"purchase_waiting_payment_url\": :purchase_waiting_payment_url,\n      \"purchase_under_analysis_url\"\
+    : :purchase_under_analysis_url\n    },\n    \"is_show_coupon_option\": :is_show_coupon_option,\n \
+    \   \"is_request_buyer_address\": :is_request_buyer_address,\n    \"is_request_phone_number\": :is_request_phone_number,\n\
+    \    \"is_request_id_number\": :is_request_id_number\n  },\n  \"link_configuration\": {\n    \"link_callback_url\"\
+    : :link_callback_url\n  },\n  \"subscription\": {\n    \"periodicity\": :periodicity,\n    \"billing_configuration\"\
+    : {\n      \"billing_type\": :billing_type,\n      \"max_number_of_payments\": :max_number_of_payments\n\
+    \    },\n    \"trial\": {\n      \"trial_type\": :trial_type,\n      \"trial_period\": :trial_period\n\
+    \    }\n  }\n}'"
+- name: create-shopping-cart-step-03
+  category: Payment Link
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/link
+  doc: tutorials/create-shopping-cart-step-03.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/link' \\\n--header\
+    \ 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json' \\\n--data-raw\
+    \ '{\n  \"name\": \"Single Payment Link\",\n  \"value\": 499.99,\n  \"currency\": \"USD\",\n  \"link_configuration\"\
+    : {\n    \"link_callback_url\": :link_callback_url\n  }\n}'"
+- name: custom-response-request
+  category: Subscriptions
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/cancel?select=subscriber_code,date_last_recurrence,status
+  doc: start/custom-response-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request POST ''https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/cancel?select=subscriber_code,date_last_recurrence,status''
+    \
+
+    --header ''Content-Type: application / json'' \
+
+    --header ''Authorization: Bearer: access_token'''
+- name: delete-coupon-delete-coupon
+  category: Coupons
+  method: DELETE
+  url: https://developers.hotmart.com/products/api/v1/coupon/:coupon_id
+  doc: v1/coupon/delete-coupon-delete-coupon.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request DELETE ''https://developers.hotmart.com/products/api/v1/coupon/:coupon_id''
+    \
+
+    --header ''Content-Type: application/json'' \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: get-club-lessons-request
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/users/{user_id}/lessons?subdomain=my-subdomain
+  doc: v1/club/get-club-lessons-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/users/{user_id}/lessons?subdomain=my-subdomain'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-club-modules-request
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/modules?subdomain=my-subdomain&is_extra=false
+  doc: v1/club/get-club-modules-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/modules?subdomain=my-subdomain&is_extra=false'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-club-pages-request
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/modules/{module_id}/pages
+  doc: v1/club/get-club-pages-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/modules/{module_id}/pages'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-club-pages-request-v2
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v2/modules/{module_id}/pages?product_id={product_id}
+  doc: v2/club/get-club-pages-request-v2.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v2/modules/{module_id}/pages?product_id={product_id}'\
+    \ \\\n  --header 'Content-Type: application/json' \\\n  --header 'Authorization: Bearer :access_token'"
+- name: get-club-users-request
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain
+  doc: v1/club/get-club-users-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-coupon-get-coupon
+  category: Coupons
+  method: GET
+  url: https://developers.hotmart.com/products/api/v1/coupon/product/:product_id?code=:code&page_token=:page_token
+  doc: v1/coupon/get-coupon-get-coupon.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request GET ''https://developers.hotmart.com/products/api/v1/coupon/product/:product_id?code=:code&page_token=:page_token''
+    \
+
+    --header ''Content-Type: application/json'' \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: get-get-info-tickets
+  category: Events & Tickets
+  method: GET
+  url: https://developers.hotmart.com/events/api/v1/:event_id/info
+  doc: v1/tickets/get-get-info-tickets.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location ''https://developers.hotmart.com/events/api/v1/:event_id/info'' \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: get-get-participants-tickets
+  category: Events & Tickets
+  method: GET
+  url: https://developers.hotmart.com/events/api/v1/:event_id/participants
+  doc: v1/tickets/get-get-participants-tickets.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location ''https://developers.hotmart.com/events/api/v1/:event_id/participants \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: get-pl-request
+  category: Payment Link
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/link
+  doc: v1/payment-link/get-pl-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/link' \\\n\t--header\
+    \ 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-sales-commissions-request
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/commissions?product_id=123
+  doc: v1/sales/get-sales-commissions-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/commissions?product_id=123'\
+    \ \\\n  --header 'Content-Type: application/json' \\\n  --header 'Authorization: Bearer :access_token''"
+- name: get-sales-history
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/history?transaction_status=APPROVED
+  doc: v1/sales/get-sales-history.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/history?transaction_status=APPROVED'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-sales-price-details-request
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/price/details?transaction_status=CANCELLED&payment_type=CREDIT_CARD
+  doc: v1/sales/get-sales-price-details-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/price/details?transaction_status=CANCELLED&payment_type=CREDIT_CARD'\
+    \ \\\n  --header 'Content-Type: application/json' \\\n  --header 'Authorization: Bearer :access_token''"
+- name: get-sales-summary
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/summary?product_id=1234567
+  doc: v1/sales/get-sales-summary.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/summary?product_id=1234567'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-sales-users-request
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/users?product_id=123
+  doc: v1/sales/get-sales-users-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/users?product_id=123'\
+    \ \\\n  --header 'Content-Type: application/json' \\\n  --header 'Authorization: Bearer :access_token''"
+- name: get-subscribers-request
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions?status=CANCELLED_BY_SELLER&status=ACTIVE
+  doc: v1/subscription/get-subscribers-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions?status=CANCELLED_BY_SELLER&status=ACTIVE'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-subscription-purchases-request
+  category: Subscriptions
+  method: get
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/purchases
+  doc: v1/subscription/get-subscription-purchases-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request GET ''https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/purchases''
+    \
+
+    --header ''Content-Type: application/json'' \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: get-subscription-summary
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/summary?accession_date=1682910000000&end_accession_date=1696374925000&max_results=500
+  doc: v1/subscription/get-subscription-summary.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions/summary?accession_date=1682910000000&end_accession_date=1696374925000&max_results=500'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-subscription-transaction-request
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/transactions?transaction_date=1262354400000&end_transaction_date=1735830000000&max_results=500
+  doc: v1/subscription/get-subscription-transaction-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions/transactions?transaction_date=1262354400000&end_transaction_date=1735830000000&max_results=500'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: get-user-me-request
+  category: User Profile
+  method: GET
+  url: https://developers.hotmart.com/user/api/v1/me
+  doc: v1/user/get-user-me-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/user/api/v1/me' \\\n --header 'Content-Type:\
+    \ application/json' \\\n --header 'Authorization: Bearer :access_token'"
+- name: overdue-subscription-step-01
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions?status=DELAYED&status=OVERDUE&date_next_charge=1656633600&end_date_next_charge=1664582399
+  doc: tutorials/overdue-subscription-step-01.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions?status=DELAYED&status=OVERDUE&date_next_charge=1656633600&end_date_next_charge=1664582399'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: overdue-subscription-step-02.1
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/purchases
+  doc: tutorials/overdue-subscription-step-02.1.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/purchases'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: overdue-subscription-step-02.2
+  category: Sales
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/sales/users?transaction=HP12345678910111
+  doc: tutorials/overdue-subscription-step-02.2.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/payments/api/v1/sales/users?transaction=HP12345678910111'\
+    \ \\\n  --header 'Content-Type: application/json' \\\n  --header 'Authorization: Bearer :access_token'"
+- name: overdue-subscription-step-03
+  category: Club (Members Area)
+  method: GET
+  url: https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain&email=assinante@gmail.com
+  doc: tutorials/overdue-subscription-step-03.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/club/api/v1/users?subdomain=my-subdomain&email=assinante@gmail.com'\
+    \ \\\n\t--header 'Content-Type: application/json' \\\n\t--header 'Authorization: Bearer :access_token'"
+- name: pagination-request
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions?page_token=:page_token
+  doc: start/pagination-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request GET ''https://developers.hotmart.com/payments/api/v1/subscriptions?page_token=:page_token''
+    \
+
+    --header ''Content-Type: application/json'' \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: post-coupon-post-coupon
+  category: Products
+  method: POST
+  url: https://developers.hotmart.com/products/api/v1/product/:product_id/coupon
+  doc: v1/coupon/post-coupon-post-coupon.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request POST ''https://developers.hotmart.com/products/api/v1/product/:product_id/coupon''
+    \
+
+    --header ''Content-Type: application/json'' \
+
+    --header ''Authorization: Bearer :access_token'''
+- name: post-get-account-info
+  category: Account
+  method: POST
+  url: https://developers.hotmart.com/accounts/api/v1/info
+  doc: v1/account/post-get-account-info.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request POST ''https://developers.hotmart.com/accounts/api/v1/info'' \
+
+    --header ''Content-Type: application/json'' \
+
+    --header ''Authorization: Bearer :access_token''
+
+    --data ''{"query":"{\n accountByFilterToExternalApplication(accountInput:{ucode: ":ucode"}) {\n addressCity,\n
+    addressComplement,\n addressNumber,\n addressState,\n addressStreet,\n birthDate,\n country,\n docType,\n
+    docValue,\n documents {\n type,\n value \n},\n email,\n entityType,\n legalName,\n motherName, \n
+    name, \n ucode,\n partners {\n name,\n participationPercentage \n} \n  } \n}","variables":{}}'''
+- name: post-negotiate
+  category: Negotiation
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/installments/negotiate
+  doc: v1/negotiate/post-negotiate.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/installments/negotiate'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"subscription_id\": 123456,\n  \"recurrences\": [\n    3\n  ],\n  \"payment_type\"\
+    : \"PIX\",\n  \"discount\": {\n    \"type\": \"CUSTOM\",\n    \"value\": 100.11\n  }\n}"
+- name: pp-credential-create-request
+  category: Physical Products
+  method: POST
+  url: https://developers.hotmart.com/physicalproducts/api/v1/credentials
+  doc: v1/physical-product/pp-credential-create-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/physicalproducts/api/v1/credentials'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"user\"\
+    : {\n    \"identifier\": \"user-test-1\"\n  },\n  \"credential\": {\n    \"client_id\": \"000001\"\
+    \n  }\n}'"
+- name: pp-credential-delete-request
+  category: Physical Products
+  method: DELETE
+  url: https://developers.hotmart.com/physicalproducts/api/v1/credentials/:client_id?partner_identifier=:partner_identifier
+  doc: v1/physical-product/pp-credential-delete-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request DELETE ''https://developers.hotmart.com/physicalproducts/api/v1/credentials/:client_id?partner_identifier=:partner_identifier''
+    \
+
+    --header ''Authorization: Bearer ACCESS_TOKEN'''
+- name: pp-credential-update-request
+  category: Physical Products
+  method: PUT
+  url: https://developers.hotmart.com/physicalproducts/api/v1/credentials/:client_id
+  doc: v1/physical-product/pp-credential-update-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/physicalproducts/api/v1/credentials/:client_id'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"user\"\
+    : {\n    \"identifier\": \"user-test-2\"\n  },\n  \"credential\": {\n    \"client_id\": \"000001\"\
+    \n  }\n}'"
+- name: pp-product-create-request
+  category: Physical Products
+  method: POST
+  url: https://developers.hotmart.com/physicalproducts/api/v1/product
+  doc: v1/physical-product/pp-product-create-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/physicalproducts/api/v1/product'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"product\": {\n    \"partner_url\": \"https://partner.example.com/product/123\"\
+    ,\n    \"content_locale\": \"PT_BR\",\n    \"sub_category\": 1,\n    \"is_free_shipping\": true,\n\
+    \    \"name\": \"Nome do Produto\",\n    \"description\": \"Descrição detalhada do produto, garantindo\
+    \ que contenha mais de 200 caracteres para evitar problemas de validação.\",\n    \"category\": 26,\n\
+    \    \"status\": \"ACTIVE\",\n    \"sku\": \"PRD12345\",\n    \"cost\": 10.50,\n    \"image\": {\n\
+    \      \"id\": 1073741824,\n      \"src\": \"https://example.com/image.jpg\"\n    },\n    \"dimensions\"\
+    : {\n      \"weight\": 1.5,\n      \"width\": 10.0,\n      \"height\": 15.0,\n      \"length\": 5.0\n\
+    \    },\n    \"address\": {\n      \"postal_code\": \"12345-678\",\n      \"address_number\": \"1000\"\
+    ,\n      \"address\": \"Rua Exemplo\",\n      \"complement\": \"Apto 101\",\n      \"neighborhood\"\
+    : \"Centro\",\n      \"city\": \"Belo Horizonte\",\n      \"state\": \"MG\",\n      \"country\": \"\
+    BR\"\n    },\n    \"additional_shipping_days\": 20\n  },\n  \"partner\": {\n    \"identifier\": \"\
+    PARTNER-IDENTIFIER\"\n  }\n}'"
+- name: pp-product-create-v2-request
+  category: Physical Products
+  method: POST
+  url: https://developers.hotmart.com/physicalproducts/api/v2/product
+  doc: v2/physical-product/pp-product-create-v2-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/physicalproducts/api/v2/product'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"product\": {\n    \"partner_url\": \"https://partner.example.com/product/123\"\
+    ,\n    \"partner_product_id\": \"PARTNER-PRD-123\",\n    \"content_locale\": \"PT_BR\",\n    \"sub_category\"\
+    : 1,\n    \"is_free_shipping\": true,\n    \"name\": \"Nome do Produto\",\n    \"description\": \"\
+    Descrição detalhada do produto, garantindo que contenha mais de 200 caracteres para evitar problemas\
+    \ de validação.\",\n    \"category\": 26,\n    \"status\": \"ACTIVE\",\n    \"sku\": \"PRD12345\"\
+    ,\n    \"cost\": 10.50,\n    \"image\": {\n      \"id\": 1073741824,\n      \"src\": \"https://example.com/image.jpg\"\
+    \n    },\n    \"dimensions\": {\n      \"weight\": 1.5,\n      \"width\": 10.0,\n      \"height\"\
+    : 15.0,\n      \"length\": 5.0\n    },\n    \"address\": {\n      \"postal_code\": \"12345-678\",\n\
+    \      \"address_number\": \"1000\",\n      \"address\": \"Rua Exemplo\",\n      \"complement\": \"\
+    Apto 101\",\n      \"neighborhood\": \"Centro\",\n      \"city\": \"Belo Horizonte\",\n      \"state\"\
+    : \"MG\",\n      \"country\": \"BR\"\n    },\n    \"additional_shipping_days\": 20,\n    \"attributes\"\
+    : [\n      {\n        \"name\": \"Cor\",\n        \"values\": [\"Vermelho\", \"Azul\", \"Verde\"],\n\
+    \        \"status\": \"ACTIVE\"\n      },\n      {\n        \"name\": \"Tamanho\",\n        \"values\"\
+    : [\"P\", \"M\", \"G\"],\n        \"status\": \"ACTIVE\"\n      }\n    ],\n    \"variants\": [\n \
+    \     {\n        \"identifier\": \"VAR-001\",\n        \"sku\": \"PRD12345-VM-P\",\n        \"attributes\"\
+    : [\n          { \"name\": \"Cor\", \"value\": \"Vermelho\" },\n          { \"name\": \"Tamanho\"\
+    , \"value\": \"P\" }\n        ],\n        \"status\": \"ACTIVE\",\n        \"cost\": 10.50,\n    \
+    \    \"stock\": 100,\n        \"dimensions\": {\n          \"weight\": 1.5,\n          \"width\":\
+    \ 10.0,\n          \"height\": 15.0,\n          \"length\": 5.0\n        },\n        \"image\": {\n\
+    \          \"id\": 1,\n          \"src\": \"https://example.com/image-red-p.jpg\"\n        }\n   \
+    \   }\n    ]\n  },\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  }\n}'"
+- name: pp-product-sales-update-request
+  category: Physical Products
+  method: PUT
+  url: https://developers.hotmart.com/physicalproducts/api/v1/product/:product_ucode/status
+  doc: v1/physical-product/pp-product-sales-update-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/physicalproducts/api/v1/product/:product_ucode/status'\
+    \ \\\n--header 'Authorization: Bearer ACCESS_TOKEN' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"status\"\
+    : \"ACTIVE\"\n}'"
+- name: pp-product-update-request
+  category: Physical Products
+  method: PUT
+  url: https://developers.hotmart.com/physicalproducts/api/v1/product/:product_ucode
+  doc: v1/physical-product/pp-product-update-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/physicalproducts/api/v1/product/:product_ucode'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"product\": {\n    \"partner_url\": \"https://partner.example.com/product/123\"\
+    ,\n    \"content_locale\": \"PT_BR\",\n    \"sub_category\": 1,\n    \"is_free_shipping\": true,\n\
+    \    \"name\": \"Nome do Produto\",\n    \"description\": \"Descrição detalhada do produto, garantindo\
+    \ que contenha mais de 200 caracteres para evitar problemas de validação.\",\n    \"category\": 26,\n\
+    \    \"sku\": \"PRD12345\",\n    \"cost\": 10.50,\n    \"image\": {\n      \"id\": 1073741824,\n \
+    \     \"src\": \"https://example.com/image.jpg\"\n    },\n    \"dimensions\": {\n      \"weight\"\
+    : 1.5,\n      \"width\": 10.0,\n      \"height\": 15.0,\n      \"length\": 5.0\n    },\n    \"address\"\
+    : {\n      \"postal_code\": \"12345-678\",\n      \"address_number\": \"1000\",\n      \"address\"\
+    : \"Rua Exemplo\",\n      \"complement\": \"Apto 101\",\n      \"neighborhood\": \"Centro\",\n   \
+    \   \"city\": \"Belo Horizonte\",\n      \"state\": \"MG\",\n      \"country\": \"BR\"\n    },\n \
+    \   \"additional_shipping_days\": 20\n  },\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\
+    \n  }\n}'"
+- name: pp-product-variants-update-request
+  category: Physical Products
+  method: PATCH
+  url: https://developers.hotmart.com/physicalproducts/api/v1/product/:product_ucode/variants?partner_identifier=PARTNER-IDENTIFIER
+  doc: v1/physical-product/pp-product-variants-update-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PATCH 'https://developers.hotmart.com/physicalproducts/api/v1/product/:product_ucode/variants?partner_identifier=PARTNER-IDENTIFIER'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"attributes\": [\n    {\n      \"name\": \"Cor\",\n      \"values\": [\"Vermelho\"\
+    , \"Azul\", \"Verde\", \"Preto\"],\n      \"status\": \"ACTIVE\"\n    },\n    {\n      \"name\": \"\
+    Tamanho\",\n      \"values\": [\"P\", \"M\", \"G\", \"GG\"],\n      \"status\": \"ACTIVE\"\n    }\n\
+    \  ],\n  \"variants\": [\n    {\n      \"identifier\": \"VAR-001\",\n      \"sku\": \"PRD12345-VM-P\"\
+    ,\n      \"attributes\": [\n        { \"name\": \"Cor\", \"value\": \"Vermelho\" },\n        { \"\
+    name\": \"Tamanho\", \"value\": \"P\" }\n      ],\n      \"status\": \"ACTIVE\",\n      \"cost\":\
+    \ 12.50,\n      \"stock\": 150,\n      \"dimensions\": {\n        \"weight\": 1.5,\n        \"width\"\
+    : 10.0,\n        \"height\": 15.0,\n        \"length\": 5.0\n      },\n      \"image\": {\n      \
+    \  \"id\": 1,\n        \"src\": \"https://example.com/image-red-p.jpg\"\n      }\n    },\n    {\n\
+    \      \"identifier\": \"VAR-004\",\n      \"sku\": \"PRD12345-PT-GG\",\n      \"attributes\": [\n\
+    \        { \"name\": \"Cor\", \"value\": \"Preto\" },\n        { \"name\": \"Tamanho\", \"value\"\
+    : \"GG\" }\n      ],\n      \"status\": \"ACTIVE\",\n      \"cost\": 14.00,\n      \"stock\": 50,\n\
+    \      \"dimensions\": {\n        \"weight\": 1.8,\n        \"width\": 12.0,\n        \"height\":\
+    \ 17.0,\n        \"length\": 6.0\n      },\n      \"image\": {\n        \"id\": 2,\n        \"src\"\
+    : \"https://example.com/image-black-gg.jpg\"\n      }\n    }\n  ]\n}'"
+- name: pp-webhook-create-request
+  category: Physical Products
+  method: POST
+  url: https://developers.hotmart.com/physicalproducts/api/v1/webhook
+  doc: v1/physical-product/pp-webhook-create-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/physicalproducts/api/v1/webhook'\
+    \ \\\n--header 'Authorization: Bearer ACCESS_TOKEN' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"event\"\
+    : [\n    \"PURCHASE_APPROVED\",\n    \"PURCHASE_PROTEST\",\n    \"PURCHASE_REFUNDED\"\n  ],\n  \"\
+    product_ucode\": \"PRODUCT-UCODE\",\n  \"url\": \"https://www.test.com\"\n}'"
+- name: pp-webhook-delete-request
+  category: Physical Products
+  method: DELETE
+  url: https://developers.hotmart.com/physicalproducts/api/v1/webhook/:webhook_id?partner_identifier=:partner_identifier
+  doc: v1/physical-product/pp-webhook-delete-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: 'curl --location --request DELETE ''https://developers.hotmart.com/physicalproducts/api/v1/webhook/:webhook_id?partner_identifier=:partner_identifier''
+    \
+
+    --header ''Authorization: Bearer ACCESS_TOKEN'''
+- name: pp-webhook-update-request
+  category: Physical Products
+  method: PUT
+  url: https://developers.hotmart.com/physicalproducts/api/v1/webhook/:webhook_id
+  doc: v1/physical-product/pp-webhook-update-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/physicalproducts/api/v1/webhook/:webhook_id'\
+    \ \\\n--header 'Authorization: Bearer ACCESS_TOKEN' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data-raw '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"event\"\
+    : [\n    \"PURCHASE_APPROVED\",\n    \"PURCHASE_PROTEST\",\n    \"PURCHASE_REFUNDED\"\n  ],\n  \"\
+    url\": \"https://www.test.com\"\n}'"
+- name: product-configuration-request
+  category: Products
+  method: PUT
+  url: https://developers.hotmart.com/products/api/v1/product/configuration/:product_id
+  doc: v1/product/product-configuration-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/products/api/v1/product/configuration/:product_id'\
+    \ \\\n    --header 'Authorization: Bearer :access_token' \\\n    --header 'Content-Type: application/json'\
+    \ \\\n    --data-raw '{\n      \"is_allowed_to_email_the_buyer\": :is_allowed_to_email_the_buyer\n\
+    \    }'"
+- name: product-list-request
+  category: Products
+  method: GET
+  url: https://developers.hotmart.com/products/api/v1/products
+  doc: v1/product/product-list-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/products/api/v1/products' \\\n\
+    \ --header 'Content-Type: application/json' \\\n --header 'Authorization: Bearer :access_token'"
+- name: product-offers-request
+  category: Products
+  method: GET
+  url: https://developers.hotmart.com/products/api/v1/products/:ucode/offers
+  doc: v1/product/product-offers-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location 'https://developers.hotmart.com/products/api/v1/products/:ucode/offers' \\\n\
+    \ --header 'Content-Type: application/json' \\\n --header 'Authorization: Bearer :access_token'"
+- name: product-plans-request
+  category: Products
+  method: GET
+  url: https://developers.hotmart.com/products/api/v1/products/:ucode/plans
+  doc: v1/product/product-plans-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request GET 'https://developers.hotmart.com/products/api/v1/products/:ucode/plans'\
+    \ \\\n --header 'Content-Type: application/json' \\\n --header 'Authorization: Bearer :access_token'"
+- name: reactivate-subscription-request
+  category: Subscriptions
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/reactivate
+  doc: v1/subscription/reactivate-subscription-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/subscriptions/:subscriber_code/reactivate'\
+    \ \\\n  --header 'Authorization: Bearer :access_token' \\\n  --header 'Content-Type: application/json'\
+    \ \\\n  --data-raw '{\n      \"charge\": :charge\n  }'"
+- name: reactivate-subscriptions-request
+  category: Subscriptions
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/reactivate
+  doc: v1/subscription/reactivate-subscriptions-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/payments/api/v1/subscriptions/reactivate'\
+    \ \\\n  --header 'Authorization: Bearer :access_token' \\\n  --header 'Content-Type: application/json'\
+    \ \\\n  --data-raw '{\n      \"subscriber_code\": [:subscriber_code],\n      \"charge\": :charge\n\
+    \  }'"
+- name: sales-billet-request
+  category: Sales
+  method: PUT
+  url: https://developers.hotmart.com/payments/api/v1/sales/:transaction/billet
+  doc: v1/sales/sales-billet-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/payments/api/v1/sales/:transaction/billet'\
+    \ \\\n    --header 'Authorization: Bearer :access_token' \\\n    --header 'Content-Type: application/json'\
+    \ \\"
+- name: sales-refund-request
+  category: Sales
+  method: PUT
+  url: https://developers.hotmart.com/payments/api/v1/sales/:transaction_code/refund
+  doc: v1/sales/sales-refund-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request PUT 'https://developers.hotmart.com/payments/api/v1/sales/:transaction_code/refund'\
+    \ \\\n    --header 'Authorization: Bearer :access_token' \\\n    --header 'Content-Type: application/json'\
+    \ \\"
+- name: sp-shipment-status-request
+  category: Physical Products
+  method: POST
+  url: https://developers.hotmart.com/physicalproducts/api/v1/shipments/status
+  doc: v1/physical-product/sp-shipment-status-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location 'https://developers.hotmart.com/physicalproducts/api/v1/shipments/status' \\\n\
+    --header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json' \\\n\
+    --data '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"transaction\":\
+    \ \"HP123456789\",\n  \"status\": \"sent\",\n  \"date\": \"2025-02-26T12:26:06Z\"\n}'"
+- name: sp-shipment-tracking-request
+  category: Physical Products
+  method: POST
+  url: https://developers.hotmart.com/physicalproducts/api/v1/shipments/tracking
+  doc: v1/physical-product/sp-shipment-tracking-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location --request POST 'https://developers.hotmart.com/physicalproducts/api/v1/shipments/tracking'\
+    \ \\\n--header 'Authorization: Bearer :access_token' \\\n--header 'Content-Type: application/json'\
+    \ \\\n--data '{\n  \"partner\": {\n    \"identifier\": \"PARTNER-IDENTIFIER\"\n  },\n  \"transaction\"\
+    : \"HP9900000010\",\n  \"code\": \"AB0000001BR\",\n  \"url\": \"https://rastreamento.correios.com.br/app/index.php\"\
+    ,\n  \"carrier\": \"CORREIOS\",\n  \"carrier_service\": \"PAC\",\n  \"shipping_type\": \"FIXED_PRICE\"\
+    ,\n  \"estimated_delivery\": \"2026-06-18T00:00:00Z\",\n  \"actual_delivery\": \"2026-06-17T16:40:00Z\"\
+    ,\n  \"freight_actual_price\": 18.90,\n  \"recipient_email\": \"destinatario@email.com\",\n  \"is_sample\"\
+    : false,\n  \"tracking_events\": [\n      {\n        \"description\": \"Objeto em Trânsito\",\n  \
+    \      \"location\": \"Belo Horizonte - MG\",\n        \"date\": \"1971-04-26T12:26:06Z\",\n     \
+    \   \"status\": \"DELIVERED\"\n      }\n    ]\n}'"
+- name: switch-plan-get-plans-request
+  category: Subscriptions
+  method: GET
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/switch-plan/plans?subscriber_codes=:subscriber_code
+  doc: v1/subscription/switch-plan-get-plans-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location 'https://developers.hotmart.com/payments/api/v1/subscriptions/switch-plan/plans?subscriber_codes=:subscriber_code'\
+    \ \\\n  --header 'Authorization: Bearer :access_token'"
+- name: switch-plan-request
+  category: Subscriptions
+  method: POST
+  url: https://developers.hotmart.com/payments/api/v1/subscriptions/switch-plan
+  doc: v1/subscription/switch-plan-request.md
+  languages:
+  - curl
+  - java
+  - node
+  curl: "curl --location 'https://developers.hotmart.com/payments/api/v1/subscriptions/switch-plan' \\\
+    \n  --header 'Authorization: Bearer :access_token' \\\n  --header 'Content-Type: application/json'\
+    \ \\\n  --data '{\n    \"subscriber_code\": :subscriber_code,\n    \"offer_code\": :offer_code\n \
+    \ }'"

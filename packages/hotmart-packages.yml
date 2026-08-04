@@ -1,0 +1,126 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  npm registry search (npmjs.org), PyPI, Packagist, GitHub (Hotmart-Org), and
+  https://developers.hotmart.com/docs/en/ — searched for first-party client
+  libraries for the Hotmart Developers API.
+description: >-
+  Hotmart ships NO official SDK or client library for the Hotmart Developers
+  REST API in any language. The docs publish per-endpoint request samples in
+  cURL, Node and Java (see examples/hotmart-code-samples.yml) and stop there.
+  The first-party packages that do exist on npm under the @hotmart scope are
+  front-end/platform integration helpers, not API clients. Every library that
+  wraps the Developers API is third-party.
+official_api_sdk: false
+packages:
+  # --- First-party (published by Hotmart, but not API SDKs) ---
+  - language: javascript
+    registry: npm
+    name: '@hotmart/hot-login'
+    url: https://www.npmjs.com/package/@hotmart/hot-login
+    install: npm install @hotmart/hot-login
+    official: true
+    scope: sso
+    description: >-
+      Helper package for integrating with Hotmart's SSO. Front-end auth
+      integration, not a client for the Developers REST API.
+  - language: javascript
+    registry: npm
+    name: eslint-config-hotmart
+    url: https://www.npmjs.com/package/eslint-config-hotmart
+    install: npm install --save-dev eslint-config-hotmart
+    official: true
+    scope: tooling
+    description: Hotmart's own JavaScript style / ESLint configuration. Internal engineering tooling.
+  - language: javascript
+    registry: cdn
+    name: hotmart-checkout-elements.js
+    url: https://checkout.hotmart.com/lib/hotmart-checkout-elements.js
+    install: '<script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>'
+    official: true
+    scope: embedded-checkout
+    description: >-
+      Loader for Hotmart Checkout Elements (overlay and embedded checkout). CDN
+      script, not published to a package registry. See
+      components/hotmart-components.yml.
+  # --- Third-party (community; listed for accuracy, not credited to Hotmart) ---
+  - language: javascript
+    registry: npm
+    name: hotmart-sdk
+    url: https://www.npmjs.com/package/hotmart-sdk
+    official: false
+    scope: api-client
+    description: Community SDK covering membership areas, subscriptions and related endpoints.
+  - language: python
+    registry: pypi
+    name: hotmart-python
+    url: https://pypi.org/project/hotmart-python/
+    install: pip install hotmart-python
+    official: false
+    scope: api-client
+  - language: php
+    registry: packagist
+    name: joao-pedro-alves/hotmart-php-sdk
+    url: https://packagist.org/packages/joao-pedro-alves/hotmart-php-sdk
+    official: false
+    scope: api-client
+  - language: php
+    registry: packagist
+    name: fuganholi/hotmart
+    url: https://packagist.org/packages/fuganholi/hotmart
+    official: false
+    scope: api-client
+  - language: php
+    registry: packagist
+    name: like-a-rocket/hotmart
+    url: https://packagist.org/packages/like-a-rocket/hotmart
+    official: false
+    scope: api-client
+  - language: javascript
+    registry: npm
+    name: n8n-nodes-hotmart-api
+    url: https://www.npmjs.com/package/n8n-nodes-hotmart-api
+    official: false
+    scope: workflow-node
+    description: n8n community node claiming full coverage of the Hotmart API.
+  - language: javascript
+    registry: npm
+    name: n8n-nodes-hotmart
+    url: https://www.npmjs.com/package/n8n-nodes-hotmart
+    official: false
+    scope: workflow-node
+  - language: javascript
+    registry: npm
+    name: '@pipedream/hotmart'
+    url: https://www.npmjs.com/package/@pipedream/hotmart
+    official: false
+    scope: workflow-node
+  - language: javascript
+    registry: npm
+    name: '@theyahia/hotmart-mcp'
+    url: https://www.npmjs.com/package/@theyahia/hotmart-mcp
+    official: false
+    scope: mcp-server
+    description: >-
+      Community MCP server for Hotmart (digital products, subscriptions,
+      affiliates). Not published or endorsed by Hotmart.
+  - language: javascript
+    registry: npm
+    name: '@marcelocorrea/mcp-hotmart-api'
+    url: https://www.npmjs.com/package/@marcelocorrea/mcp-hotmart-api
+    official: false
+    scope: mcp-server
+registries_probed:
+  - {registry: npm, result: 'first-party @hotmart scope found (SSO + tooling only); no API SDK'}
+  - {registry: pypi, result: 'hotmart 404, hotmart-api 404, hotmart-python 200 (third-party)'}
+  - {registry: packagist, result: '3 third-party PHP libraries'}
+  - {registry: 'github (Hotmart-Org)', result: '12 public repos — Drone/Java/Android/Swift tooling forks, no API SDK, no .proto, no spec'}
+  - {registry: 'maven central / nuget / crates.io / rubygems / pkg.go.dev', result: 'no first-party Hotmart client library found'}
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://registry.npmjs.org/-/v1/search?text=hotmart
+    - https://registry.npmjs.org/@hotmart/hot-login
+    - https://pypi.org/pypi/hotmart-python/json
+    - https://packagist.org/search.json?q=hotmart
+    - https://api.github.com/orgs/Hotmart-Org/repos

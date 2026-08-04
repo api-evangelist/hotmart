@@ -1,0 +1,87 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/start/sandbox/
+docs: https://developers.hotmart.com/docs/en/start/sandbox/
+description: >-
+  Hotmart runs a first-class sandbox that mirrors production: every endpoint
+  available on Hotmart Developers can be called against it, using the same path,
+  and every value it returns is fictional so no real Hotmart account or data is
+  touched.
+test_vs_live:
+  separation: separate host + separate credential type
+  live_host: https://developers.hotmart.com
+  test_host: https://sandbox.hotmart.com
+  path_rule: >-
+    The sandbox is reached by swapping the host and keeping the original path —
+    https://developers.hotmart.com/payments/api/v1/subscriptions becomes
+    https://sandbox.hotmart.com/payments/api/v1/subscriptions.
+  credential:
+    where: Hotmart platform > Tools > Developer Credentials
+    console: https://app-vlc.hotmart.com/tools/credentials
+    mechanism: >-
+      Tick the "sandbox" option in the Type field when creating the credential.
+      A credential's type is fixed at creation — a production credential cannot
+      be converted, a new sandbox credential must be created instead.
+    token_url: https://api-sec-vlc.hotmart.com/security/oauth/token
+    note: Sandbox authentication is otherwise identical to production.
+  key_prefixes: null
+  key_prefix_note: >-
+    Hotmart does not use test/live key prefixes (there is no sk_test_ analogue);
+    the environment is carried by the credential type and the host.
+test_data:
+  nature: >-
+    All data returned by sandbox endpoints is fictional. Hotmart publishes no
+    global list of magic test values (no test card numbers, no test IBANs, no
+    hosted test tokens).
+  scenario_values: >-
+    Some endpoints support more than one response scenario. Where they do, the
+    specific request values that trigger each scenario, and the return for each,
+    are listed in the "Sandbox" section at the bottom of that endpoint's own
+    documentation page rather than in one central table.
+  webhook_payloads: >-
+    Sandbox payloads for webhook events were added/updated in the 2023-02-21
+    changelog entry, so webhook receivers can be exercised against fictional
+    events.
+error_simulation:
+  supported: true
+  scope: >-
+    Sandbox deliberately exposes only a subset of the errors the production API
+    can return — enough validations to test an integration, not the full
+    catalog. Endpoint-specific errors are listed inside each endpoint's section.
+  common_errors:
+    - status: 404
+      type: not_found
+      description: The URL requested wasn't found and is in an invalid form.
+    - status: 405
+      type: method_not_allowed
+      description: >-
+        The HTTP method used in the request is known by the server but cannot be
+        used on this endpoint.
+    - status: 401
+      type: unauthorized_client
+      description: The user doesn't have permission to continue with the request.
+    - status: 500
+      type: internal_server_error
+      description: >-
+        An unexpected internal server error occurred and the request could not
+        be completed.
+test_clocks:
+  supported: false
+  note: No time-simulation / test-clock tooling is documented.
+fixture_tooling:
+  supported: false
+  note: >-
+    No CLI, fixture loader or event-trigger tool is published. Webhook test
+    events are sent from the Hotmart platform's webhook configuration UI; since
+    the 2022-04-26 changelog entry those test events carry the creator's default
+    hottok.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/start/sandbox/
+    - https://developers.hotmart.com/docs/en/start/app-auth/
+  probe:
+    - url: https://sandbox.hotmart.com/payments/api/v1/subscriptions
+      http_status: 401
+      content_type: application/json
+      note: sandbox host is live and enforces authentication

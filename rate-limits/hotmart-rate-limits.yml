@@ -1,0 +1,45 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+provider: Hotmart
+providerId: hotmart
+generated: '2026-08-04'
+method: searched
+created: '2026-08-04'
+modified: '2026-08-04'
+tags:
+  - Rate Limiting
+  - Creator Economy
+  - Payments
+description: >-
+  Hotmart Developers applies a single published rate limit across the whole API:
+  500 calls per minute per user/application, counting reads and writes together.
+  Exceeding it returns 429 with error type too_many_requests. The limit was
+  raised in the 2024-07-08 changelog entry ("Increase in API rate limit").
+sources:
+  - https://developers.hotmart.com/docs/en/start/rate-limit/
+  - https://developers.hotmart.com/docs/en/start/http-response-codes/
+  - https://developers.hotmart.com/docs/en/changelog
+headers:
+  limit: RateLimit-Limit
+  remaining: RateLimit-Remaining
+  reset: RateLimit-Reset
+  limitPerMinute: X-RateLimit-Limit-Minute
+  remainingPerMinute: X-RateLimit-Remaining-Minute
+responseCodes:
+  throttled: 429
+limits:
+  - name: All API calls (reads and writes)
+    scope: user_or_application
+    metric: requests_per_minute
+    limit: 500
+    timeFrame: minute
+    notes: >-
+      Hotmart states this is the default allowance and does not publish per-tier
+      or per-endpoint variations.
+tiered: false
+overage_policy: null
+notes: >-
+  No documented burst allowance, no per-endpoint carve-outs, and no documented
+  process for requesting a higher limit. Separately, a 502 is returned when a
+  query takes more than 30 seconds against the database — a practical ceiling on
+  broad date-range queries that is distinct from the request-rate limit.

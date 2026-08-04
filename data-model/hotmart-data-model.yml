@@ -1,0 +1,193 @@
+generated: '2026-08-04'
+method: derived
+source: >-
+  Derived from Hotmart's own published endpoint documentation and per-endpoint
+  code samples (examples/hotmart-code-samples.yml) plus the webhook 2.0.0 payload
+  field tables. Hotmart publishes no OpenAPI, so the entity graph is derived
+  from documented resource paths, path/query identifiers and payload field
+  names — not from schema $refs.
+description: >-
+  The entity-relationship graph behind the Hotmart Developers API. Hotmart's
+  data core is a creator-economy commerce model: a Producer (creator) owns
+  Products, each Product carries Offers, Plans and Coupons, a purchase becomes a
+  Transaction (and, for recurring products, a Subscription with a Subscriber),
+  commissions fan out to Producer / Co-producer / Affiliate, and content
+  consumption is tracked in Hotmart Club (Members Area).
+identifier_conventions:
+  product_id: 7-digit numeric product identifier.
+  ucode: >-
+    Product UUID ("unique code"). The identifier Hotmart tells integrators to
+    store — product.ucode on webhooks, :ucode on the product offers/plans
+    endpoints, :product_ucode on the physical-product endpoints.
+  transaction: >-
+    Transaction code, prefixed HP, e.g. HP17715690036014. Created when an order
+    is placed (boleto generation, approved purchase, recurring charge, ...).
+  subscriber_code: >-
+    Unique code for a subscriber on one subscription. The same buyer has
+    different subscriber codes across two different products.
+  subscription_id: numeric subscription identification number at Hotmart.
+  offer_code: short alphanumeric offer code (also the key for Checkout Elements).
+  plan_id: unique subscription-plan identifier.
+  subdomain: the Hotmart Club members-area subdomain — required on Club v1 calls.
+  event_id: identifier of an event product (Tickets API path parameter).
+  webhook_event_id: per-delivery `id` in the webhook envelope; the dedupe key.
+entities:
+  - name: Producer
+    aka: [Creator, Seller]
+    description: The person or company with a Hotmart account that owns at least one product.
+    fields: [name, document, legal_nature]
+    endpoints: [POST /accounts/api/v1/info, GET /user/api/v1/me]
+  - name: Product
+    description: A digital or physical product sold on Hotmart.
+    ids: [id, ucode]
+    fields: [name, has_co_production, warranty_date, support_email, is_physical_product, content]
+    endpoints:
+      - GET /products/api/v1/products
+      - PUT /products/api/v1/product/configuration/:product_id
+  - name: Offer
+    description: A priced offer on a product; the unit a checkout is opened against.
+    ids: [offer_code]
+    fields: [price, currency, metadata]
+    endpoints: [GET /products/api/v1/products/:ucode/offers]
+  - name: Plan
+    description: A recurring-billing plan attached to a subscription product.
+    ids: [plan_id]
+    fields: [name, recurrency_period, max_charge_cycles]
+    endpoints:
+      - GET /products/api/v1/products/:ucode/plans
+      - GET /payments/api/v1/subscriptions/switch-plan/plans
+  - name: Coupon
+    description: A discount coupon scoped to a product.
+    ids: [coupon_id, code]
+    endpoints:
+      - POST /products/api/v1/product/:product_id/coupon
+      - GET /products/api/v1/coupon/product/:product_id
+      - DELETE /products/api/v1/coupon/:coupon_id
+  - name: Buyer
+    description: The purchaser. Fields are returned only where the checkout collected them.
+    fields: [email, name, first_name, last_name, checkout_phone, document, document_type, address]
+  - name: Transaction
+    aka: [Sale, Purchase]
+    ids: [transaction]
+    fields: [status, payment_type, business_model, approved_date, price, commissions]
+    endpoints:
+      - GET /payments/api/v1/sales/history
+      - GET /payments/api/v1/sales/summary
+      - GET /payments/api/v1/sales/price/details
+      - GET /payments/api/v1/sales/users
+      - PUT /payments/api/v1/sales/:transaction_code/refund
+      - PUT /payments/api/v1/sales/:transaction/billet
+  - name: Subscription
+    ids: [subscription_id, subscriber_code]
+    fields: [status, accession_date, date_next_charge, cancelation_date, trial, plan, transaction]
+    endpoints:
+      - GET /payments/api/v1/subscriptions
+      - GET /payments/api/v1/subscriptions/summary
+      - GET /payments/api/v1/subscriptions/transactions
+      - GET /payments/api/v1/subscriptions/:subscriber_code/purchases
+      - POST /payments/api/v1/subscriptions/:subscriber_code/cancel
+      - POST /payments/api/v1/subscriptions/:subscriber_code/reactivate
+      - PATCH /payments/api/v1/subscriptions/:subscriber_code
+      - POST /payments/api/v1/subscriptions/switch-plan
+  - name: Commission
+    description: The split of a transaction across the parties on the sale.
+    fields: [value, currency_value, source]
+    source_values: [PRODUCER, COPRODUCER, AFFILIATE, ADDON]
+    endpoints: [GET /payments/api/v1/sales/commissions]
+  - name: Affiliate
+    ids: [affiliate_code]
+    fields: [name]
+  - name: PaymentLink
+    ids: [payment_link_ucode]
+    endpoints:
+      - POST /payments/api/v1/link
+      - GET /payments/api/v1/link
+      - POST /payments/api/v1/link/:payment_link_ucode/offer
+      - POST /payments/api/v1/link/:payment_link_ucode/plan
+      - POST /payments/api/v1/link/token/charge/offer
+      - POST /payments/api/v1/link/token/charge/value
+  - name: ClubUser
+    aka: [Student]
+    ids: [user_id]
+    endpoints:
+      - GET /club/api/v1/users
+      - GET /club/api/v1/users/{user_id}/lessons
+  - name: ClubModule
+    ids: [module_id]
+    endpoints: [GET /club/api/v1/modules]
+  - name: ClubPage
+    aka: [Lesson]
+    endpoints:
+      - GET /club/api/v1/modules/{module_id}/pages
+      - GET /club/api/v2/modules/{module_id}/pages
+  - name: Event
+    aka: [Ticketed event]
+    ids: [event_id]
+    endpoints:
+      - GET /events/api/v1/:event_id/info
+      - GET /events/api/v1/:event_id/participants
+  - name: Shipment
+    description: Physical-product logistics record maintained by an authorized partner.
+    fields: [status, tracking, shipping_type, carrier]
+    endpoints:
+      - POST /physicalproducts/api/v1/shipments/status
+      - POST /physicalproducts/api/v1/shipments/tracking
+  - name: PartnerCredential
+    description: Credential a physical-product business partner registers for its own integration.
+    ids: [client_id, partner_identifier]
+    endpoints:
+      - POST /physicalproducts/api/v1/credentials
+      - PUT /physicalproducts/api/v1/credentials/:client_id
+      - DELETE /physicalproducts/api/v1/credentials/:client_id
+relationships:
+  - {from: Producer, to: Product, type: has_many, via: account}
+  - {from: Product, to: Offer, type: has_many, via: ucode}
+  - {from: Product, to: Plan, type: has_many, via: ucode}
+  - {from: Product, to: Coupon, type: has_many, via: product_id}
+  - {from: Product, to: Product, type: has_many, via: content.products, note: bundles contain other products}
+  - {from: Transaction, to: Product, type: belongs_to, via: product.ucode}
+  - {from: Transaction, to: Buyer, type: has_one, via: buyer}
+  - {from: Transaction, to: Producer, type: belongs_to, via: producer}
+  - {from: Transaction, to: Commission, type: has_many, via: commissions}
+  - {from: Transaction, to: Affiliate, type: has_many, via: affiliates.affiliate_code}
+  - {from: Subscription, to: Plan, type: has_one, via: plan}
+  - {from: Subscription, to: Transaction, type: has_many, via: subscriber_code}
+  - {from: Subscription, to: Buyer, type: belongs_to, via: subscriber_code}
+  - {from: Subscription, to: Product, type: belongs_to, via: product_id}
+  - {from: PaymentLink, to: Offer, type: has_many, via: payment_link_ucode}
+  - {from: PaymentLink, to: Plan, type: has_many, via: payment_link_ucode}
+  - {from: ClubModule, to: ClubPage, type: has_many, via: module_id}
+  - {from: ClubUser, to: ClubPage, type: has_many, via: user_id, note: progress/lessons}
+  - {from: ClubUser, to: Product, type: belongs_to, via: subdomain}
+  - {from: Shipment, to: Transaction, type: belongs_to, via: transaction}
+  - {from: Event, to: Transaction, type: has_many, via: participants}
+surfaces:
+  rest:
+    hosts: [https://developers.hotmart.com, https://sandbox.hotmart.com]
+    prefixes:
+      - {prefix: /payments/api/v1, entities: [Subscription, Transaction, PaymentLink, Commission]}
+      - {prefix: /club/api/v1, entities: [ClubUser, ClubModule, ClubPage], also: /club/api/v2}
+      - {prefix: /products/api/v1, entities: [Product, Offer, Plan, Coupon]}
+      - {prefix: /physicalproducts/api/v1, entities: [Shipment, PartnerCredential, Product], also: /physicalproducts/api/v2}
+      - {prefix: /events/api/v1, entities: [Event]}
+      - {prefix: /accounts/api/v1, entities: [Producer]}
+      - {prefix: /user/api/v1, entities: [Producer]}
+    documented_operations: 44
+    operations_note: >-
+      44 distinct method+path pairs are documented with a runnable request
+      sample; see examples/hotmart-code-samples.yml for the verbatim samples.
+  events:
+    mechanism: webhooks
+    detail: asyncapi/hotmart-webhooks.yml
+  openapi: null
+  graphql: null
+  mcp: null
+render: null
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/v1/subscription/get-subscribers/
+    - https://developers.hotmart.com/docs/en/v1/sales/sales-history/
+    - https://developers.hotmart.com/docs/en/v1/product/product-list/
+    - https://developers.hotmart.com/docs/en/v1/club/about-club/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/purchase-webhook/

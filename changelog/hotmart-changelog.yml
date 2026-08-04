@@ -1,0 +1,184 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/changelog
+docs: https://developers.hotmart.com/docs/en/changelog
+description: 'Hotmart Developers maintains a dated, tagged changelog going back to September 2021. Entries
+  are labelled with a change type (Added / Changed / Fixed) and the surface affected (Developers, Webhook,
+  Subscriptions, Products, Negotiate). It is an additive log: no entry announces a removal or a breaking
+  change, and there is no deprecation policy alongside it.'
+scheme: dated entries, tagged by change type and product surface
+current_version: v1 (REST path version); webhook event schema 2.0.0
+first_entry: '2021-09-28'
+latest_entry: '2026-07-23'
+counts:
+  total_entries: 83
+  by_change_type:
+    Added: 60
+    Changed: 17
+    Fixed: 5
+    Security: 1
+  by_surface:
+    Webhook: 36
+    Developers: 10
+    Subscriptions: 18
+    Products: 1
+    Negotiate: 1
+    Tickets: 1
+    Sales: 12
+    Coupon: 1
+    Tutorials: 7
+    Credentials: 3
+breaking_changes_announced: 0
+entries:
+- date: '2026-07-23'
+  title: New offer.metadata field in Purchase Webhook V2
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2026-07/2026-07-23-webhook-offer-metadata/
+- date: '2026-07-17'
+  title: Generate New Bank Payment Slip endpoint release
+  change_type: Added
+  apps:
+  - Developers
+  url: https://developers.hotmart.com/docs/en/changelog/2026-07/2026-07-17-sales-billet/
+- date: '2026-07-07'
+  title: User Profile API release
+  change_type: Added
+  apps:
+  - Developers
+  url: https://developers.hotmart.com/docs/en/changelog/2026-07/2026-07-07-get-user-me/
+- date: '2026-06-09'
+  title: New Logistics data webhook (ORDER_FULFILLMENT) v2.0.0
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2026-06/2026-06-09-order-fulfillment-webhook/
+- date: '2026-03-20'
+  title: Addition of the shipping field to the sales webhook v2.0.0
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2026-03/2026-03-20-purchase-webhook-shipping/
+- date: '2026-03-09'
+  title: New variants field on the purchase webhook v2.0.0
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2026-03/2026-03-09-purchase-webhook-variants/
+- date: '2025-09-10'
+  title: Publication of the Product Offers API
+  change_type: Added
+  apps:
+  - Developers
+  url: https://developers.hotmart.com/docs/en/changelog/2025-09/2025-09-10-product-offers/
+- date: '2025-09-05'
+  title: Publication of the Product Plan Listing API
+  change_type: Added
+  apps:
+  - Developers
+  url: https://developers.hotmart.com/docs/en/changelog/2025-09/2025-09-05-get-plans/
+- date: '2025-08-01'
+  title: New fields in Webhook 2.0 subscription cancellation event
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2025-08/2025-08-01-webhook/
+- date: '2025-06-01'
+  title: New fields in Webhook 2.0 purchase event
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2025-06/2025-06-01-webhook/
+- date: '2025-04-01'
+  title: New fields in the Webhook 2.0 purchase event
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2025-04/2025-04-01-webhook/
+- date: '2025-03-13'
+  title: New fields in the Webhook 2.0 purchase event
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2025-03/2025-03-13-webhook/
+- date: '2025-03-10'
+  title: New event Complete Module in Club in Webhook 2.0
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2025-03/2025-03-10-webhook/
+- date: '2025-02-24'
+  title: New First Access to the Club event in Webhook 2.0
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2025-02/2025-02-24-webhook/
+- date: '2025-01-27'
+  title: Inclusion of new endpoint for Subscription Transactions
+  change_type: Added
+  apps:
+  - Subscriptions
+  url: https://developers.hotmart.com/docs/en/changelog/2025-01/2025-01-27-subscription-transaction/
+- date: '2025-01-17'
+  title: Publication of the Product List API
+  change_type: Added
+  apps:
+  - Products
+  url: https://developers.hotmart.com/docs/en/changelog/2025-01/2025-01-17-products/
+- date: '2024-10-28'
+  title: Increase in number of recurring payments in the Installment Negotiation endpoint
+  change_type: Changed
+  apps:
+  - Developers
+  url: https://developers.hotmart.com/docs/en/changelog/2024-10/2024-10-28-negotiate/
+- date: '2024-07-08'
+  title: Increase in API rate limit (more requests per minute)
+  change_type: Added
+  apps:
+  - Developers
+  url: https://developers.hotmart.com/docs/en/changelog/2024-07/2024-07-08-rate-limit/
+- date: '2024-04-25'
+  title: Inclusion of fields for sales origin analysis and commission conversion in Webhook 2.0
+  change_type: Added
+  apps:
+  - Webhook
+  url: https://developers.hotmart.com/docs/en/changelog/2024-04/2024-04-25-webhook/
+- date: '2024-03-28'
+  title: Inclusion of new endpoint for Installment Negotiation
+  change_type: Added
+  apps:
+  - Negotiate
+  url: https://developers.hotmart.com/docs/en/changelog/2024-03/2024-03-28-negotiate/
+- date: '2024-01-30'
+  title: We've made endpoints available for Event-type products to streamline your sales management.
+  change_type: Added
+  apps:
+  - Tickets
+  url: https://developers.hotmart.com/docs/en/changelog/2024-01/2024-01-30-tickets/
+- date: '2024-01-15'
+  title: Commission calculation update and new field addition
+  change_type: Fixed
+  apps:
+  - Sales
+  url: https://developers.hotmart.com/docs/en/changelog/2024-01/2024-01-15-sales-percentage/
+- date: '2023-12-17'
+  title: Inclusion of a new field in the Subscription Summary
+  change_type: Added
+  apps:
+  - Subscriptions
+  url: https://developers.hotmart.com/docs/en/changelog/2023-12/2023-12-17-coupon/
+- date: '2023-12-11'
+  title: Inclusion of new Discount Coupons endpoints
+  change_type: Added
+  apps:
+  - Coupon
+  url: https://developers.hotmart.com/docs/en/changelog/2023-12/2023-12-11-coupon/
+- date: '2023-10-23'
+  title: '"Financial Status" endpoint for subscriptions added to Developers'
+  change_type: Added
+  apps:
+  - Subscriptions
+  url: https://developers.hotmart.com/docs/en/changelog/2023-10/2023-10-23-webhook/
+window_note: Recent window — the 25 most recent of 83 published entries. The live changelog is the source
+  of truth.

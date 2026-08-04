@@ -1,0 +1,74 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/tutorials/checkout-elements/
+docs: https://developers.hotmart.com/docs/en/tutorials/checkout-elements/
+description: >-
+  Hotmart ships one first-party client-side component family — Checkout Elements
+  — a JavaScript library that embeds the Hotmart checkout into a seller's own
+  sales page instead of redirecting the buyer to a Hotmart-hosted page. It is
+  loaded from Hotmart's CDN, is not published to a package registry, and is
+  distinct from the server-side Developers REST API.
+families:
+  - name: Checkout Elements
+    kind: embedded checkout
+    loader:
+      script: https://checkout.hotmart.com/lib/hotmart-checkout-elements.js
+      global: checkoutElements
+      install: '<script src="https://checkout.hotmart.com/lib/hotmart-checkout-elements.js"></script>'
+    init_signature: "checkoutElements.init('<type>', { offer: '<offer_code>', ... })"
+    requires:
+      - A product "offer code", copied from the product's Pricing and offers screen in the Hotmart platform.
+      - An external page whose source code the seller controls.
+    components:
+      - name: overlayCheckout
+        aliases: [Overlay Checkout, Widget checkout]
+        mount: elements.attach('#<button_selector>')
+        description: >-
+          Attaches to a button on the seller's page; clicking it opens the
+          checkout in an overlay modal.
+      - name: inlineCheckout
+        aliases: [Embedded checkout, Transparent checkout]
+        mount: elements.mount('#<div_selector>')
+        description: Renders the full checkout inline inside a div on the seller's own page.
+    options:
+      offer: product offer code (required)
+      countryIsoCode: ISO 3166 Alpha-2 country used for the checkout
+      locale: checkout language
+      prefilledInfo:
+        description: Pre-fills buyer fields at checkout.
+        fields: [name, email, doc, zip, phoneac, phonenumber, sck]
+        note: >-
+          `sck` is the Hotmart source/tracking parameter and is set inside
+          prefilledInfo.
+      visibilityOptions:
+        description: >-
+          Hides individual payment options in the rendered checkout (the xcode
+          property is set inside visibilityOptions).
+        examples: [hideBillet, hideTransf]
+    caveat: >-
+      Hotmart notes that if the seller's sales page is unavailable, the embedded
+      checkout is unavailable with it — the component inherits the host page's
+      availability.
+    related_tutorial: https://developers.hotmart.com/docs/en/tutorials/create-shopping-cart/
+other_surfaces:
+  - name: Hotmart Club members area
+    kind: hosted
+    description: >-
+      Hotmart's hosted members area. Read/report access is exposed through the
+      Club REST API (/club/api/v1); it is not an embeddable component.
+  - name: Payment Link
+    kind: hosted
+    description: >-
+      Hosted payment page created through /payments/api/v1/link. A hosted
+      surface rather than a client-side component.
+    docs: https://developers.hotmart.com/docs/en/v1/payment-link/about-pl/
+not_found:
+  - Web Components / custom elements distribution
+  - React / Vue / Angular component packages for the checkout
+  - Embedded analytics or dashboard components
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/tutorials/checkout-elements/
+  probe:
+    - {url: 'https://checkout.hotmart.com/lib/hotmart-checkout-elements.js', note: 'CDN loader URL published verbatim in the Hotmart tutorial'}

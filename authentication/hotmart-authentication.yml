@@ -1,0 +1,96 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/start/app-auth/
+docs: https://developers.hotmart.com/docs/en/start/app-auth/
+description: >-
+  Hotmart Developers authenticates every API call with OAuth 2.0. Credentials
+  (client_id, client_secret and a pre-computed Basic token) are minted in the
+  Hotmart platform under Tools > Developer Credentials, and are bound at creation
+  time to either the production or the sandbox environment — the type cannot be
+  changed afterwards, a new credential must be created. The credential is
+  exchanged for a short-lived access_token at the token endpoint, which is then
+  sent as a Bearer token on every resource request.
+summary:
+  types: [oauth2, http]
+  api_key_in: []
+  oauth2_flows: [clientCredentials]
+  bearer_on_requests: true
+schemes:
+  - name: OAuth2ClientCredentials
+    type: oauth2
+    flow: clientCredentials
+    token_url: https://api-sec-vlc.hotmart.com/security/oauth/token
+    grant_type: client_credentials
+    client_authentication: >-
+      HTTP Basic — the "Basic" token generated alongside client_id/client_secret
+      is sent in the Authorization header on the token request; client_id and
+      client_secret are additionally passed as query parameters.
+    request_example: >-
+      POST https://api-sec-vlc.hotmart.com/security/oauth/token?grant_type=client_credentials&client_id=:client_id&client_secret=:client_secret
+      with headers Content-Type: application/json and Authorization: Basic :basic
+    scopes_documented: false
+    scopes_note: >-
+      Hotmart does not publish an OAuth scope/permission reference. Access is
+      determined by the Hotmart account (and collaborator permissions) the
+      credential belongs to, not by requested scopes, so no scopes/ artifact is
+      emitted.
+    sources: [https://developers.hotmart.com/docs/en/start/app-auth/]
+  - name: BearerToken
+    type: http
+    scheme: bearer
+    description: >-
+      The access_token returned by the token endpoint is sent on every resource
+      request as `Authorization: Bearer <access_token>`.
+    sources: [https://developers.hotmart.com/docs/en/start/app-auth/]
+token:
+  response_fields: [access_token, token_type, expires_in, scope, jti]
+  expiry_field: expires_in
+  expiry_note: >-
+    expires_in indicates the time allotted before the token expires; after that
+    period every request made with the same token returns 401. Hotmart
+    recommends the application handle the 401 and re-run token generation. Only
+    the access token expires — client_id, client_secret and the Basic token do
+    not rotate on their own.
+  error_on_expiry:
+    http_status: 401
+    error_types: [token_expired, invalid_token, unauthorized]
+environments:
+  - name: production
+    credential_type: production
+    token_url: https://api-sec-vlc.hotmart.com/security/oauth/token
+    api_host: https://developers.hotmart.com
+  - name: sandbox
+    credential_type: sandbox
+    token_url: https://api-sec-vlc.hotmart.com/security/oauth/token
+    api_host: https://sandbox.hotmart.com
+    note: >-
+      Sandbox requires a credential created with the "sandbox" type checked; a
+      production credential will not authenticate against sandbox.hotmart.com.
+credential_management:
+  console: https://app-vlc.hotmart.com/tools/credentials
+  path: Hotmart platform > Tools > Developer Credentials
+  rotation: >-
+    Credentials can be deleted and regenerated at any time from the credentials
+    tool if exposure is suspected.
+webhook_authentication:
+  mechanism: shared secret ("hottok")
+  header: X-HOTMART-HOTTOK
+  description: >-
+    Every webhook delivery carries the account's unique hottok in the
+    X-HOTMART-HOTTOK HTTP header. Hotmart recommends validating it before
+    processing the payload. It is a static per-account shared secret, not a
+    signature — there is no HMAC body signature or timestamp/replay defence
+    documented.
+  rotation: by Hotmart support request only
+  docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/purchase-webhook/
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/start/app-auth/
+    - https://developers.hotmart.com/docs/en/start/sandbox/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/purchase-webhook/
+  probe:
+    - url: https://api-sec-vlc.hotmart.com/security/oauth/token
+      method: POST
+      http_status: 401
+      note: unauthenticated probe — endpoint is live and rejects anonymous callers

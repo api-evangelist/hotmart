@@ -1,0 +1,240 @@
+generated: '2026-08-04'
+method: searched
+source: https://developers.hotmart.com/docs/en/2.0.0/webhook/purchase-webhook/
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  Hotmart publishes no AsyncAPI (or CloudEvents / EventCatalog) document for its
+  event surface, and no AsyncAPI file was found on the docs host, on the API
+  hosts, or in the Hotmart-Org GitHub organization. The event catalog below is
+  the webhook surface Hotmart documents in prose, captured as-is. No AsyncAPI
+  has been generated on Hotmart's behalf.
+description: >-
+  Hotmart's event surface is a webhook ("postback") integration configured
+  per-product in the Hotmart platform. It notifies an integrator endpoint when
+  purchases, subscriptions, members-area activity and physical-product logistics
+  change state. Two independently versioned event schemas exist, 1.0.0 and
+  2.0.0; the version is chosen when the webhook configuration is created and
+  arrives on every payload in a `version` field.
+docs:
+  overview: https://developers.hotmart.com/docs/en/1.0.0/webhook/about-webhook/
+  using: https://developers.hotmart.com/docs/en/1.0.0/webhook/using-webhook/
+  response_codes: https://developers.hotmart.com/docs/en/1.0.0/webhook/http-response-codes-webhook/
+  help_center: https://help.hotmart.com/en/article/360001491352/how-do-i-set-up-my-product-s-api-using-the-webhook-postback-
+transport:
+  style: HTTP POST to a subscriber-provided URL
+  configuration: >-
+    Created in the Hotmart platform per product; the events to receive and the
+    receiving address are selected there. Integration is a three-step flow —
+    create a receiving endpoint, configure product/events/address, test.
+  authentication:
+    mechanism: shared secret
+    header: X-HOTMART-HOTTOK
+    field: hottok
+    description: >-
+      Each Hotmart account has a unique token. It is sent as X-HOTMART-HOTTOK in
+      the HTTP header of every request and Hotmart recommends validating it
+      before processing the payload. Changing the token requires contacting
+      Hotmart support. There is no HMAC body signature and no timestamp/replay
+      defence.
+  envelope_fields:
+    id: unique identification code of the event received (the dedupe key)
+    creation_date: event creation date, in milliseconds since 1970-01-01T00:00:00Z
+    event: the event name (see events below)
+    version: the event schema version — 1.0.0 or 2.0.0
+    data: the event payload
+    hottok: the account shared secret (also sent as a header)
+  event_history:
+    retention_days: 60
+    where: the webhook configuration screen in the Hotmart platform
+  delivery_status_codes:
+    - status: 2XX
+      meaning: All good — delivery accepted.
+    - status: 400
+      meaning: The receiving service identified a missing or invalid required parameter.
+    - status: 401
+      meaning: >-
+        The receiving service is requiring a key for authentication. Check that
+        it validates `hottok` and is not requiring a different key.
+    - status: 404
+      meaning: The receiving service URL does not exist.
+    - status: 408
+      meaning: >-
+        Connection established and event triggered, but the receiver did not
+        respond within the expected time.
+    - status: 5XX
+      meaning: Receiver connected but did not respond within the expected time limit.
+    - status: -1
+      meaning: >-
+        Receiver terminated the connection unexpectedly without reporting the
+        reason. Hotmart's own sentinel value, not an HTTP status.
+  retry_policy: null
+  retry_note: Hotmart documents no retry/backoff schedule for failed deliveries.
+versions:
+  - version: 2.0.0
+    status: current
+    events: 8 event families
+  - version: 1.0.0
+    status: legacy
+    note: >-
+      Still selectable and documented, but new fields (order bump, buyer
+      details, currency, variants, shipping, offer metadata) have been added
+      only to 2.0.0 since 2022.
+events:
+  - name: PURCHASE_APPROVED
+    family: purchase
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/purchase-webhook/
+    description: A purchase was approved.
+  - name: PURCHASE_COMPLETE
+    family: purchase
+    version: 2.0.0
+    description: A purchase completed (warranty period elapsed).
+  - name: PURCHASE_CANCELED
+    family: purchase
+    version: 2.0.0
+    description: A purchase was canceled.
+  - name: PURCHASE_BILLET_PRINTED
+    family: purchase
+    version: 2.0.0
+    description: A bank payment slip (boleto) was generated for a purchase.
+  - name: PURCHASE_PROTEST
+    family: purchase
+    version: 2.0.0
+    description: A purchase entered dispute.
+  - name: PURCHASE_REFUNDED
+    family: purchase
+    version: 2.0.0
+    description: A purchase was refunded.
+  - name: PURCHASE_CHARGEBACK
+    family: purchase
+    version: 2.0.0
+    description: A purchase was charged back.
+  - name: PURCHASE_EXPIRED
+    family: purchase
+    version: 2.0.0
+    description: A purchase expired without payment.
+  - name: PURCHASE_DELAYED
+    family: purchase
+    version: 2.0.0
+    description: Payment for a purchase is delayed.
+  - name: PURCHASE_OUT_OF_SHOPPING_CART
+    family: cart
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/cart-abandonment-webhook/
+    description: Cart abandonment — a lead left checkout without completing the purchase.
+  - name: SUBSCRIPTION_CANCELLATION
+    family: subscription
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/cancel-subscription-webhook/
+    description: A subscription was cancelled.
+  - name: SWITCH_PLAN
+    family: subscription
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/switch-plan-webhook/
+    description: A subscriber changed plan.
+  - name: UPDATE_SUBSCRIPTION_CHARGE_DATE
+    family: subscription
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/update-subscription-charge-date/
+    description: A subscription's billing date changed.
+  - name: CLUB_FIRST_ACCESS
+    family: club
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/club-first-access/
+    description: A student accessed the members area (Hotmart Club) for the first time.
+  - name: CLUB_MODULE_COMPLETED
+    family: club
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/club-module-completed/
+    description: A student completed a module in the members area.
+  - name: ORDER_FULFILLMENT
+    family: logistics
+    version: 2.0.0
+    docs: https://developers.hotmart.com/docs/en/2.0.0/webhook/order-fulfillment-webhook/
+    description: >-
+      Logistics data for a physical-product order — shipping type
+      (FIXED_PRICE / FLAT_RATE / FREE_SHIPPING), carrier / fulfilment partner
+      (CORREIOS, MONTINK, UICLAP, MANUAL, PARTNER).
+partner_managed_webhooks:
+  description: >-
+    Authorized physical-product business partners manage their own webhook
+    registrations through the REST API rather than the platform UI.
+  operations:
+    - method: POST
+      url: https://developers.hotmart.com/physicalproducts/api/v1/webhook
+      docs: https://developers.hotmart.com/docs/en/v1/physical-product/pp-webhook-create/
+    - method: PUT
+      url: https://developers.hotmart.com/physicalproducts/api/v1/webhook/:webhook_id
+      docs: https://developers.hotmart.com/docs/en/v1/physical-product/pp-webhook-update/
+    - method: DELETE
+      url: https://developers.hotmart.com/physicalproducts/api/v1/webhook/:webhook_id
+      docs: https://developers.hotmart.com/docs/en/v1/physical-product/pp-webhook-delete/
+payload_enums:
+  purchase_status:
+    - APPROVED
+    - BLOCKED
+    - CANCELLED
+    - CHARGEBACK
+    - COMPLETE
+    - EXPIRED
+    - NO_FUNDS
+    - OVERDUE
+    - PARTIALLY_REFUNDED
+    - PRE_ORDER
+    - PRINTED_BILLET
+    - PROCESSING_TRANSACTION
+    - DISPUTE
+    - REFUNDED
+    - STARTED
+    - UNDER_ANALISYS
+    - WAITING_PAYMENT
+  subscription_status:
+    - ACTIVE
+    - INACTIVE
+    - DELAYED
+    - OVERDUE
+    - STARTED
+    - EXPIRED
+    - CANCELLED_BY_CUSTOMER
+    - CANCELLED_BY_SELLER
+    - CANCELLED_BY_ADMIN
+  payment_type:
+    - BILLET
+    - CASH_PAYMENT
+    - CREDIT_CARD
+    - DIRECT_BANK_TRANSFER
+    - DIRECT_DEBIT
+    - ECHECK
+    - FINANCED_BILLET
+    - FINANCED_INSTALLMENT
+    - GOOGLE_PAY
+    - HOTCARD
+    - HYBRID
+    - MANUAL_TRANSFER
+    - PAYPAL
+    - PAYPAL_INTERNACIONAL
+    - PICPAY
+    - SAMSUNG_PAY
+    - WALLET
+  commission_source:
+    - PRODUCER
+    - COPRODUCER
+    - AFFILIATE
+    - ADDON
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/purchase-webhook/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/cart-abandonment-webhook/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/cancel-subscription-webhook/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/switch-plan-webhook/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/update-subscription-charge-date/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/club-first-access/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/club-module-completed/
+    - https://developers.hotmart.com/docs/en/2.0.0/webhook/order-fulfillment-webhook/
+    - https://developers.hotmart.com/docs/en/1.0.0/webhook/http-response-codes-webhook/
+  asyncapi_probes:
+    - {url: 'https://developers.hotmart.com/asyncapi.yaml', http_status: 200, result: HTML docs shell, valid: false}
+    - {url: 'https://api-sec-vlc.hotmart.com/openapi.json', http_status: 404, valid: false}
+    - {url: 'https://github.com/Hotmart-Org', http_status: 200, result: '12 public repos, none an API/event specification'}

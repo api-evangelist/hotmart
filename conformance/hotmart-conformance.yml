@@ -1,0 +1,131 @@
+generated: '2026-08-04'
+method: derived
+source: >-
+  Derived from Hotmart's published developer documentation
+  (https://developers.hotmart.com/docs/en/start/) and from live probes of the
+  API and authorization hosts. No OpenAPI exists to derive from.
+description: >-
+  Which cross-cutting and industry standards the Hotmart Developers API
+  conforms to, assessed against what Hotmart publishes. Hotmart is a Brazilian
+  creator-economy and digital-products platform that also acts as merchant of
+  record, so payment and Brazilian data-protection regimes are the relevant
+  regulatory frame — but Hotmart publishes no compliance attestations on its
+  developer surface.
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      OAuth 2.0 client_credentials grant at
+      https://api-sec-vlc.hotmart.com/security/oauth/token; access token
+      presented as a Bearer token on resource requests.
+  - id: oauth2-scopes
+    conforms: false
+    evidence: No scope or permission reference is published; tokens are account-wide.
+  - id: rfc8414-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 on api-sec-vlc.hotmart.com.
+  - id: oidc
+    conforms: false
+    evidence: >-
+      /.well-known/openid-configuration returns 404. Hotmart operates an SSO
+      (see @hotmart/hot-login) but publishes no OIDC discovery document.
+  - id: rest
+    conforms: true
+    evidence: >-
+      Hotmart states the API follows the REST standard with resource-oriented
+      URLs, GET/POST/PUT/PATCH/DELETE, and JSON responses.
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No OpenAPI/Swagger document published. Probed /openapi.json,
+      /openapi.yaml, /swagger.json, /api-docs on developers.hotmart.com (SPA
+      shell, 200 HTML) and api-sec-vlc.hotmart.com (404).
+  - id: asyncapi
+    conforms: false
+    evidence: >-
+      A real webhook event surface exists (8 event families, 2 schema versions)
+      but no AsyncAPI document is published.
+  - id: graphql
+    conforms: false
+    evidence: No GraphQL endpoint documented or discovered.
+  - id: grpc
+    conforms: false
+    evidence: No .proto published in the Hotmart-Org GitHub organization or on buf.build.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are application/json with error / error_description / error_uri —
+      a proprietary envelope, not application/problem+json.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 or an SPA shell on every host.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No deprecation policy and no Sunset/Deprecation header support documented.
+  - id: rfc9110-rate-limit-headers
+    conforms: partial
+    evidence: >-
+      Hotmart returns RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset
+      (the IETF ratelimit-headers shape) plus vendor
+      X-RateLimit-*-Minute headers.
+  - id: cursor-pagination
+    conforms: true
+    evidence: >-
+      page_token / max_results request params with
+      page_info.next_page_token / prev_page_token / results_per_page /
+      total_results in responses.
+  - id: idempotency-key
+    conforms: false
+    evidence: No idempotency key, replay contract or retry-safety guarantee documented for write operations.
+  - id: webhook-signature
+    conforms: false
+    evidence: >-
+      Webhook authenticity is a static per-account shared secret
+      (X-HOTMART-HOTTOK), not an HMAC signature over the body; no timestamp or
+      replay defence.
+  - id: json-schema
+    conforms: false
+    evidence: No JSON Schema documents published for request or event payloads.
+  - id: iso-4217
+    conforms: true
+    evidence: >-
+      Webhook and sales payloads express currency with the three-letter ISO 4217
+      code (currency_value, e.g. BRL, USD).
+  - id: iso-3166-alpha2
+    conforms: true
+    evidence: Buyer address country expressed as country_iso in ISO 3166 Alpha-2 format.
+  - id: pci-dss
+    conforms: unknown
+    evidence: >-
+      Hotmart processes card payments as merchant of record (HotPay) so PCI DSS
+      applies, but no attestation, SAQ or compliance statement is published on
+      hotmart.com or the developer surface.
+  - id: lgpd
+    conforms: unknown
+    evidence: >-
+      Brazilian LGPD applies to a Brazil-headquartered platform handling buyer
+      personal data (documents, CPF/CNPJ, addresses) returned by the API. A
+      privacy policy is published at
+      https://hotmart.com/en/legal/privacy-policy, but no LGPD/GDPR compliance
+      program page or DPA is published.
+  - id: soc2
+    conforms: unknown
+    evidence: No SOC 2 report or trust center found (trust.hotmart.com and security.hotmart.com do not resolve).
+  - id: iso-27001
+    conforms: unknown
+    evidence: No ISO 27001 certification claim found on any Hotmart public page.
+compliance_program_published: false
+compliance_note: >-
+  No `Compliance` pointer is emitted for this provider: Hotmart publishes legal
+  terms and a privacy policy, but no certifications, no trust center, and no
+  compliance program page. Recording one would credit a posture that is not
+  published.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/start/about/
+    - https://developers.hotmart.com/docs/en/start/app-auth/
+    - https://developers.hotmart.com/docs/en/start/http-response-codes/
+    - https://developers.hotmart.com/docs/en/start/rate-limit/
+    - https://developers.hotmart.com/docs/en/start/pagination/
+    - https://hotmart.com/en/legal

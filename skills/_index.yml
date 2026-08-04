@@ -1,0 +1,58 @@
+generated: '2026-08-04'
+method: generated
+source: >-
+  Generated from Hotmart's published developer documentation and the repo artifacts
+  (conventions/, errors/, authentication/, rate-limits/, asyncapi/, examples/). Hotmart publishes
+  no OpenAPI, so each skill is grounded in the real HTTP method + host + path Hotmart publishes in
+  its own per-endpoint request samples (examples/hotmart-code-samples.yml), not in operationIds.
+description: >-
+  Packaged Agent Skills for the marquee Hotmart Developers flows. Each skill is a short set of
+  operating instructions an agent can follow end to end: the real endpoints, the OAuth 2.0 token
+  exchange, the cursor pagination and `select` conventions, the proprietary error envelope, the
+  500/minute rate limit, and the absence of any idempotency guarantee on write operations.
+provider_published_skills: none
+provider_published_skills_note: >-
+  No AGENTS.md, skills/ directory or agent instructions are published on developers.hotmart.com or
+  in the Hotmart-Org GitHub organization. These skills are API Evangelist generations from
+  Hotmart's public documentation, not Hotmart artifacts.
+skills:
+  - file: hotmart-authenticate.md
+    name: Authenticate against the Hotmart Developers API
+    description: >-
+      Exchange Hotmart developer credentials for an OAuth 2.0 access token and call any Hotmart
+      endpoint with it, in production or in sandbox.
+    api: https://developers.hotmart.com/docs/en/start/app-auth/
+    surface: https://api-sec-vlc.hotmart.com/security/oauth/token
+  - file: hotmart-reconcile-sales.md
+    name: Reconcile Hotmart sales, commissions and refunds
+    description: >-
+      Pull the sales history, per-transaction price breakdown and commission split for a Hotmart
+      product over a period, and issue a refund or re-generate a bank payment slip for a single
+      transaction.
+    api: https://developers.hotmart.com/docs/en/v1/sales/about-sales/
+    surface: https://developers.hotmart.com/payments/api/v1/sales
+  - file: hotmart-recover-overdue-subscriptions.md
+    name: Find overdue or cancelled subscriptions and reach their subscribers
+    description: >-
+      List Hotmart subscriptions in a delayed, overdue or cancelled state over a date window, pull
+      the buyer contact behind each one, and check whether they still have members-area access —
+      the recovery/winback flow.
+    api: https://developers.hotmart.com/docs/en/v1/subscription/get-subscribers/
+    surface: https://developers.hotmart.com/payments/api/v1/subscriptions
+  - file: hotmart-consume-webhooks.md
+    name: Receive and validate Hotmart webhook events
+    description: >-
+      Stand up an endpoint that receives Hotmart purchase, subscription, members-area and logistics
+      events, validate the hottok, dedupe by event id, and respond correctly so Hotmart does not
+      mark the delivery failed.
+    api: https://developers.hotmart.com/docs/en/1.0.0/webhook/about-webhook/
+    surface: subscriber-provided HTTPS endpoint (Hotmart postback)
+counts:
+  skills: 4
+related:
+  conventions: conventions/hotmart-conventions.yml
+  errors: errors/hotmart-problem-types.yml
+  authentication: authentication/hotmart-authentication.yml
+  rate_limits: rate-limits/hotmart-rate-limits.yml
+  events: asyncapi/hotmart-webhooks.yml
+  examples: examples/hotmart-code-samples.yml

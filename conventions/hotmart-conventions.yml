@@ -1,0 +1,177 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  https://developers.hotmart.com/docs/en/start/ — the cross-cutting request and
+  response semantics that apply to every Hotmart Developers endpoint
+  (authentication, pagination, sparse fieldsets, rate limiting, error envelope),
+  plus the published per-endpoint code samples.
+description: >-
+  How the Hotmart Developers REST API behaves across every operation. Hotmart
+  publishes no OpenAPI document, so these conventions — documented on the
+  platform's "Start" pages — are the contract an integrator or agent has to work
+  from.
+
+base_urls:
+  production: https://developers.hotmart.com
+  sandbox: https://sandbox.hotmart.com
+  authorization_server: https://api-sec-vlc.hotmart.com
+api_style: >-
+  Resource-oriented REST over HTTPS. GET, POST, PUT, PATCH and DELETE are used;
+  requests and responses are JSON. Each product area is mounted on its own path
+  prefix (/payments/api/v1, /club/api/v1, /products/api/v1,
+  /physicalproducts/api/v1, /events/api/v1, /accounts/api/v1, /user/api/v1).
+
+authentication:
+  scheme: OAuth 2.0 client_credentials, then Bearer access token
+  token_url: https://api-sec-vlc.hotmart.com/security/oauth/token
+  docs: https://developers.hotmart.com/docs/en/start/app-auth/
+  detail: authentication/hotmart-authentication.yml
+
+idempotency:
+  supported: false
+  mechanism: null
+  notes: >-
+    Hotmart documents no idempotency key, no request-replay contract and no
+    retry-safety guarantee for its write operations (subscription cancel /
+    reactivate, refund, payment-link charge, product create). Retrying a failed
+    POST is at the caller's risk. This is a real gap for agent-driven use of the
+    payments surface, not an omission in this profile.
+  docs: null
+
+pagination:
+  style: cursor
+  applies_to: list endpoints (subscriptions, sales, club users/modules/pages, products, coupons)
+  request_params:
+    max_results: >-
+      The maximum number of items per page. Each endpoint has its own
+      results_per_page default and its own maximum; a max_results above the
+      endpoint maximum is silently clamped to the maximum.
+    page_token: >-
+      The cursor. Set it to page_info.next_page_token to move forward, or to
+      page_info.prev_page_token to move back.
+  response_fields:
+    items: the collection of results
+    page_info.total_results: >-
+      Total number of items across the whole list, ignoring pagination. Not
+      returned by every endpoint.
+    page_info.next_page_token: cursor for the next page; absent on the last page
+    page_info.prev_page_token: cursor for the previous page; absent on the first page
+    page_info.results_per_page: number of items on the current page
+  max_page_size_note: >-
+    Raised from 100 to 500 rows per page for the subscription and sales
+    endpoints in the 2022-03-04 changelog entry.
+  docs: https://developers.hotmart.com/docs/en/start/pagination/
+
+sparse_fieldsets:
+  supported: true
+  name: Custom Response
+  mechanism: >-
+    A `select` query parameter listing the attributes to return, comma
+    separated. Works on any HTTP method. Dot paths address nested objects
+    (select=address.country) and arrays of objects (select=products.name). On
+    paginated endpoints only attributes inside `items` can be selected.
+  empty_behavior: If no selected attribute is found, the response body is an empty JSON object.
+  docs: https://developers.hotmart.com/docs/en/start/custom-response/
+
+field_expansion:
+  supported: false
+  notes: There is no expand/include mechanism; Custom Response narrows a payload, it does not widen one.
+
+metadata:
+  supported: partial
+  notes: >-
+    There is no generic user-metadata bag on Hotmart resources. Offers carry an
+    `offer.metadata` object on the purchase webhook (added 2026-07-23), and
+    payment links accept caller-supplied fields, but arbitrary key/value
+    metadata is not an API-wide convention.
+
+request_tracing:
+  request_id_header: null
+  notes: >-
+    Hotmart does not document a request-id / correlation-id response header.
+    Support escalation is done by sending the full request and the error
+    received. Webhook deliveries do carry a per-event `id` in the body, which is
+    the only documented dedupe/correlation key on the event surface.
+
+versioning:
+  scheme: uri-path
+  current: v1
+  detail: >-
+    The major version sits in the path after the product prefix
+    (/payments/api/v1/...). Two surfaces have shipped a v2 alongside v1:
+    /club/api/v2/modules/{module_id}/pages and
+    /physicalproducts/api/v2/product. The webhook event surface is versioned
+    separately and independently, by event version 1.0.0 and 2.0.0, chosen when
+    the webhook configuration is created.
+  docs: https://developers.hotmart.com/docs/en/changelog
+  detail_artifact: lifecycle/hotmart-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  format: proprietary (not RFC 9457 problem+json)
+  fields:
+    error: >-
+      The error type. One of invalid_token, token_expired, unauthorized,
+      unauthorized_client, invalid_parameter, invalid_value_parameter,
+      invalid_value_headers, not_found, too_many_requests,
+      internal_server_error.
+    error_description: A human-readable message giving more detail about the error.
+    error_uri: A link into the Hotmart documentation for the error code received.
+  observed_example: >-
+    {"error_description":"Full authentication is required to access this
+    resource.","error_uri":"https://developers.hotmart.com/docs/en/start/http-response-codes/","error":"unauthorized"}
+  docs: https://developers.hotmart.com/docs/en/start/http-response-codes/
+  detail: errors/hotmart-problem-types.yml
+
+rate_limit_signaling:
+  supported: true
+  default_limit: 500 requests per minute, reads and writes combined
+  throttled_status: 429
+  throttled_error_type: too_many_requests
+  response_headers:
+    RateLimit-Limit: calls allowed per allotted time (the allotted time is 1 minute)
+    RateLimit-Remaining: requests still available in the allotted time
+    RateLimit-Reset: time remaining before the quota resets
+    X-RateLimit-Limit-Minute: calls allowed per minute
+    X-RateLimit-Remaining-Minute: requests still available in the current minute
+  docs: https://developers.hotmart.com/docs/en/start/rate-limit/
+  detail: rate-limits/hotmart-rate-limits.yml
+
+date_handling:
+  format: epoch milliseconds (UTC, since 1970-01-01T00:00:00Z)
+  notes: >-
+    Every date filter and every date field in the subscription, sales and
+    webhook payloads is an integer in milliseconds. Warranty dates on the
+    purchase webhook are the exception and use YYYY-MM-DDThh:mm:ssTZD.
+
+repeating_query_params:
+  supported: true
+  notes: >-
+    Multi-valued filters (for example subscription `status` or `plan`) are sent
+    by repeating the same query key with different values, not as a comma list.
+
+environments:
+  test_vs_live: >-
+    Sandbox is a separate host (sandbox.hotmart.com) reached with the original
+    endpoint path and a sandbox-typed credential. All sandbox data is fictional.
+  detail: sandbox/hotmart-sandbox.yml
+
+events:
+  mechanism: webhooks (postback), configured per product in the Hotmart platform
+  detail: asyncapi/hotmart-webhooks.yml
+
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+    - https://developers.hotmart.com/docs/en/start/about/
+    - https://developers.hotmart.com/docs/en/start/app-auth/
+    - https://developers.hotmart.com/docs/en/start/pagination/
+    - https://developers.hotmart.com/docs/en/start/custom-response/
+    - https://developers.hotmart.com/docs/en/start/rate-limit/
+    - https://developers.hotmart.com/docs/en/start/http-response-codes/
+    - https://developers.hotmart.com/docs/en/start/sandbox/
+  probe:
+    - url: https://sandbox.hotmart.com/payments/api/v1/subscriptions
+      http_status: 401
+      content_type: application/json
+      note: unauthenticated probe returned the live error envelope quoted above

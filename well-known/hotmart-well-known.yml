@@ -1,0 +1,91 @@
+generated: '2026-08-04'
+method: probed
+source: 'live HTTP probe of /.well-known/* on every Hotmart host in apis.yml'
+description: >-
+  Hotmart publishes no /.well-known discovery surface. Every documented path was
+  probed on all six hosts and none returned a valid document. Two of the hosts
+  are single-page applications that answer HTTP 200 with an HTML shell for any
+  path, including /.well-known/* — those are recorded as false positives rather
+  than hits, per the enrichment contract.
+result: none
+documents: []
+hosts:
+  - host: https://developers.hotmart.com
+    role: docs + API gateway
+    catch_all: true
+    catch_all_note: >-
+      Gatsby SPA — returns 200 text/html for every unknown path. All
+      /.well-known/* responses are the docs shell, not documents.
+    probes:
+      - {path: /.well-known/security.txt, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/openid-configuration, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/oauth-authorization-server, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/api-catalog, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/ai-plugin.json, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/agent-card.json, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/agent.json, status: 200, content_type: text/html, valid: false}
+  - host: https://api-sec-vlc.hotmart.com
+    role: OAuth 2.0 authorization server
+    catch_all: false
+    probes:
+      - {path: /.well-known/security.txt, status: 404, valid: false}
+      - {path: /.well-known/openid-configuration, status: 404, valid: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, valid: false}
+      - {path: /.well-known/api-catalog, status: 404, valid: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, valid: false}
+      - {path: /.well-known/agent-card.json, status: 404, valid: false}
+      - {path: /.well-known/agent.json, status: 404, valid: false}
+    note: >-
+      Notable miss — this host issues OAuth 2.0 client_credentials tokens but
+      serves neither RFC 8414 oauth-authorization-server metadata nor OIDC
+      discovery, so an agent cannot discover the token endpoint programmatically.
+  - host: https://sandbox.hotmart.com
+    role: sandbox API gateway
+    catch_all: false
+    probes:
+      - {path: /.well-known/security.txt, status: 401, content_type: application/json, valid: false}
+      - {path: /.well-known/openid-configuration, status: 401, content_type: application/json, valid: false}
+      - {path: /.well-known/oauth-authorization-server, status: 401, content_type: application/json, valid: false}
+      - {path: /.well-known/api-catalog, status: 401, content_type: application/json, valid: false}
+      - {path: /.well-known/agent-card.json, status: 401, content_type: application/json, valid: false}
+      - {path: /.well-known/agent.json, status: 401, content_type: application/json, valid: false}
+    note: Gateway requires authentication for every path, including /.well-known/*.
+  - host: https://hotmart.com
+    role: marketing site
+    catch_all: false
+    probes:
+      - {path: /.well-known/security.txt, status: 404, content_type: application/xml, valid: false}
+      - {path: /.well-known/openid-configuration, status: 404, valid: false}
+      - {path: /.well-known/oauth-authorization-server, status: 404, valid: false}
+      - {path: /.well-known/api-catalog, status: 404, valid: false}
+      - {path: /.well-known/ai-plugin.json, status: 404, valid: false}
+      - {path: /.well-known/agent-card.json, status: 404, valid: false}
+      - {path: /.well-known/agent.json, status: 404, valid: false}
+  - host: https://www.hotmart.com
+    role: marketing site (www)
+    catch_all: false
+    probes:
+      - {path: /.well-known/security.txt, status: 404, valid: false}
+      - {path: /.well-known/agent-card.json, status: 404, valid: false}
+      - {path: /.well-known/agent.json, status: 404, valid: false}
+  - host: https://app-vlc.hotmart.com
+    role: platform application (credential console)
+    catch_all: true
+    catch_all_note: SPA — returns 200 text/html for every path.
+    probes:
+      - {path: /.well-known/security.txt, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/agent-card.json, status: 200, content_type: text/html, valid: false}
+      - {path: /.well-known/agent.json, status: 200, content_type: text/html, valid: false}
+security_txt: false
+api_catalog: false
+agent_card: false
+llms_txt:
+  present: true
+  url: https://hotmart.com/llms.txt
+  file: ../llms/hotmart-llms.txt
+  note: >-
+    Present on the marketing host only, and it is a marketing/product index — it
+    does not mention the Developers API, developers.hotmart.com, or any API
+    artifact.
+x-evidence:
+  fetched: '2026-08-04'

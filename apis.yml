@@ -1,23 +1,235 @@
 aid: hotmart
 name: Hotmart
-description: 'Hotmart is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Hotmart is a Brazilian creator-economy platform for producing, selling and delivering digital
+  products — online courses, ebooks, mentorships, paid communities, events and, more recently,
+  physical products. It bundles a hosted checkout, a marketplace, an affiliate network, a
+  members-area LMS (Hotmart Club) and payment processing as merchant of record (HotPay), and sells
+  into more than 180 countries. Hotmart Developers is the public REST API over that platform: OAuth
+  2.0 client-credentials authentication, product-area path prefixes (/payments, /club, /products,
+  /physicalproducts, /events, /accounts, /user), cursor pagination, a sparse-fieldset `select`
+  parameter, a 500-request-per-minute rate limit, a full-parity sandbox host, and a per-product
+  webhook (postback) event surface carrying purchase, subscription, members-area and logistics
+  events on two independently versioned payload schemas. Hotmart publishes no OpenAPI, no SDK and
+  no CLI — the contract an integrator works from is prose documentation plus per-endpoint cURL,
+  Node and Java request samples.
+image: https://hotmart.com/static/app-hotmart-next/images/share--general.jpg
 url: https://raw.githubusercontent.com/api-evangelist/hotmart/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-04'
 modified: '2026-08-04'
 tags:
 - Company
-apis: []
+- Creator Economy
+- Digital Products
+- Online Courses
+- E-Commerce
+- Payments
+- Subscriptions
+- Affiliate Marketing
+- Webhooks
+- Learning Management
+- Brazil
+apis:
+- name: Hotmart Authentication (OAuth 2.0)
+  description: >-
+    The Hotmart authorization server. Exchanges a developer credential
+    (client_id/client_secret, presented with HTTP Basic) for a short-lived OAuth 2.0
+    client_credentials access token, which is then sent as a Bearer token on every Hotmart
+    Developers request. Credentials are minted in the Hotmart platform under Tools > Developer
+    Credentials and are bound at creation time to either production or sandbox.
+  humanURL: https://developers.hotmart.com/docs/en/start/app-auth/
+  baseURL: https://api-sec-vlc.hotmart.com/security/oauth
+  tags:
+  - Authentication
+  - OAuth
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/start/app-auth/
+  - type: Authentication
+    url: authentication/hotmart-authentication.yml
+- name: Hotmart Subscriptions API
+  description: >-
+    Read and manage recurring subscriptions on a Hotmart product — list subscribers with status,
+    plan and date filters, pull a subscriber's purchase history, list subscription transactions
+    and summaries, cancel and reactivate individually or in bulk, switch plans, and change the
+    next charge date.
+  humanURL: https://developers.hotmart.com/docs/en/v1/subscription/get-subscribers/
+  baseURL: https://developers.hotmart.com/payments/api/v1/subscriptions
+  tags:
+  - Subscriptions
+  - Payments
+  - Recurring Billing
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/v1/subscription/get-subscribers/
+- name: Hotmart Sales API
+  description: >-
+    Sales reporting and post-sale actions for a Hotmart producer — sales history, sales summary,
+    per-transaction price breakdown, commission split across producer, co-producer and affiliate,
+    buyer records, plus refunding a transaction and re-generating a bank payment slip (boleto).
+  humanURL: https://developers.hotmart.com/docs/en/v1/sales/about-sales/
+  baseURL: https://developers.hotmart.com/payments/api/v1/sales
+  tags:
+  - Sales
+  - Payments
+  - Commissions
+  - Reporting
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/v1/sales/about-sales/
+- name: Hotmart Payment Link API
+  description: >-
+    Create and list Hotmart payment links, attach additional offers and plans to a link, and
+    charge a saved payment token by offer or by arbitrary value — the programmatic equivalent of
+    Hotmart's hosted checkout link.
+  humanURL: https://developers.hotmart.com/docs/en/v1/payment-link/about-pl/
+  baseURL: https://developers.hotmart.com/payments/api/v1/link
+  tags:
+  - Payments
+  - Checkout
+  - Payment Links
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/v1/payment-link/about-pl/
+- name: Hotmart Products API
+  description: >-
+    The product catalog surface — list products, read a product's offers and plans by ucode,
+    update product configuration, and create, read and delete discount coupons for a product.
+  humanURL: https://developers.hotmart.com/docs/en/v1/product/product-list/
+  baseURL: https://developers.hotmart.com/products/api/v1
+  tags:
+  - Products
+  - Catalog
+  - Coupons
+  - Offers
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/v1/product/product-list/
+- name: Hotmart Club (Members Area) API
+  description: >-
+    The members-area / LMS surface. Lists Club modules and pages for a subdomain, lists enrolled
+    users, and reads a user's lesson-by-lesson progress — the content-consumption side of a
+    Hotmart product, distinct from the commerce side.
+  humanURL: https://developers.hotmart.com/docs/en/v1/club/about-club/
+  baseURL: https://developers.hotmart.com/club/api/v1
+  tags:
+  - Learning Management
+  - Members Area
+  - Content
+  - Progress Tracking
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/v1/club/about-club/
+- name: Hotmart Physical Products API
+  description: >-
+    The logistics/fulfillment partner surface for physical products sold through Hotmart. Manages
+    partner credentials, creates and updates products and variants, posts shipment status and
+    tracking updates, and registers partner-side webhooks. A v2 product endpoint ships alongside
+    v1.
+  humanURL: https://developers.hotmart.com/docs/en/v1/physical-product/pp-webhook-create/
+  baseURL: https://developers.hotmart.com/physicalproducts/api/v1
+  tags:
+  - Physical Products
+  - Logistics
+  - Fulfillment
+  - Shipping
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/v1/physical-product/pp-webhook-create/
+- name: Hotmart Events, Account and User API
+  description: >-
+    The smaller documented surfaces — event ticket information and participant lists
+    (/events/api/v1), account information (/accounts/api/v1/info), the authenticated user profile
+    (/user/api/v1/me), and installment negotiation (/payments/api/v1/installments/negotiate).
+  humanURL: https://developers.hotmart.com/docs/en/
+  baseURL: https://developers.hotmart.com/events/api/v1
+  tags:
+  - Events
+  - Tickets
+  - Accounts
+  - User Profile
+  properties:
+  - type: Documentation
+    url: https://developers.hotmart.com/docs/en/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/hotmart-domain-security.yml
 - type: Website
-  url: https://forgeglobal.com/hotmart_stock/
+  url: https://hotmart.com/en
+- type: DeveloperPortal
+  url: https://developers.hotmart.com/
+- type: Documentation
+  url: https://developers.hotmart.com/docs/en/
+- type: APIReference
+  url: https://developers.hotmart.com/docs/en/
+- type: GettingStarted
+  url: https://developers.hotmart.com/docs/en/start/
+- type: Support
+  url: https://help.hotmart.com/en
+- type: Blog
+  url: https://hotmart.com/en/blog
+- type: GitHubOrganization
+  url: https://github.com/Hotmart-Org
+- type: Pricing
+  url: https://hotmart.com/en/pricing
+- type: SignUp
+  url: https://hotmart.com/en/signup
+- type: Login
+  url: https://app-vlc.hotmart.com/login
+- type: TermsOfService
+  url: https://hotmart.com/en/legal/terms-of-use
+- type: PrivacyPolicy
+  url: https://hotmart.com/en/legal/privacy-policy
+- type: StatusPage
+  url: https://status.hotmart.com/
+- type: ChangeLog
+  url: https://developers.hotmart.com/docs/en/changelog
+- type: ChangeLog
+  url: changelog/hotmart-changelog.yml
+- type: FAQ
+  url: https://developers.hotmart.com/docs/en/faq
+- type: Authentication
+  url: authentication/hotmart-authentication.yml
+- type: Conventions
+  url: conventions/hotmart-conventions.yml
+- type: ErrorCatalog
+  url: errors/hotmart-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/hotmart-lifecycle.yml
+- type: Conformance
+  url: conformance/hotmart-conformance.yml
+- type: RateLimits
+  url: rate-limits/hotmart-rate-limits.yml
+- type: Sandbox
+  url: sandbox/hotmart-sandbox.yml
+- type: Examples
+  url: examples/hotmart-code-samples.yml
+- type: DataModel
+  url: data-model/hotmart-data-model.yml
+- type: Components
+  url: components/hotmart-components.yml
+- type: Packages
+  url: packages/hotmart-packages.yml
+- type: Webhooks
+  url: asyncapi/hotmart-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/hotmart-llms.txt
+- type: Security
+  url: https://hotmart.com/en/legal/cybersecurity-policy
+- type: VulnerabilityDisclosure
+  url: security/hotmart-vulnerability-disclosure.yml
+x-enrichment:
+  date: '2026-08-04'
+  status: enriched
+  artifacts_added: 4
+  pass: local-v1

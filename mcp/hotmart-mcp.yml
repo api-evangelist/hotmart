@@ -2,76 +2,76 @@ generated: '2026-08-04'
 method: searched
 status: none
 official: false
-source: >-
-  Live probes of every Hotmart host plus registry/GitHub search for a hosted or published
-  Model Context Protocol server operated by Hotmart.
-description: >-
-  Hotmart operates NO MCP server. No hosted endpoint, no published package, no entry in the
-  official MCP registry, and nothing in the Hotmart-Org GitHub organization. Two community
-  projects wrap the Hotmart Developers REST API as MCP servers; both are third-party and are
-  recorded here as ecosystem evidence only. No `MCPServer` pointer is wired into apis.yml,
-  because wiring one would credit Hotmart with an agent surface it does not operate.
-
+source: Live probes of every Hotmart host plus registry/GitHub search for a hosted or published Model
+  Context Protocol server operated by Hotmart.
+description: Hotmart operates NO MCP server. No hosted endpoint, no published package, no entry in the
+  official MCP registry, and nothing in the Hotmart-Org GitHub organization. Two community projects wrap
+  the Hotmart Developers REST API as MCP servers; both are third-party and are recorded here as ecosystem
+  evidence only. No `MCPServer` pointer is wired into apis.yml, because wiring one would credit Hotmart
+  with an agent surface it does not operate.
 first_party:
   exists: false
   probes:
-    - {url: 'https://mcp.hotmart.com', method: 'POST tools/list', result: 'DNS does not resolve'}
-    - {url: 'https://mcp.hotmart.com/mcp', method: 'POST tools/list', result: 'DNS does not resolve'}
-    - {url: 'https://developers.hotmart.com/mcp', method: 'POST tools/list', http_status: 200, content_type: text/html, result: 'CloudFront/Gatsby shell, not an MCP endpoint'}
-    - {url: 'https://hotmart.com/mcp', method: 'POST tools/list', http_status: 404, result: 'not found'}
-  registry_search: >-
-    No "hotmart" entry published by Hotmart in the official MCP registry
-    (registry.modelcontextprotocol.io) or under an @hotmart npm/PyPI scope.
-  docs_search: >-
-    developers.hotmart.com publishes no MCP, agent or LLM integration page. The only
-    agent-adjacent artifact Hotmart publishes is a marketing llms.txt at hotmart.com/llms.txt.
-
+  - url: https://mcp.hotmart.com
+    method: POST tools/list
+    result: DNS does not resolve
+  - url: https://mcp.hotmart.com/mcp
+    method: POST tools/list
+    result: DNS does not resolve
+  - url: https://developers.hotmart.com/mcp
+    method: POST tools/list
+    http_status: 200
+    content_type: text/html
+    result: CloudFront/Gatsby shell, not an MCP endpoint
+  - url: https://hotmart.com/mcp
+    method: POST tools/list
+    http_status: 404
+    result: not found
+  registry_search: No "hotmart" entry published by Hotmart in the official MCP registry (registry.modelcontextprotocol.io)
+    or under an @hotmart npm/PyPI scope.
+  docs_search: developers.hotmart.com publishes no MCP, agent or LLM integration page. The only agent-adjacent
+    artifact Hotmart publishes is a marketing llms.txt at hotmart.com/llms.txt.
 community_servers:
-  - name: hotmart-mcp
-    repo: https://github.com/thaleslaray/hotmart-mcp
-    language: python
-    license: MIT
-    official: false
-    created: '2026-05-07'
-    last_push: '2026-05-14'
-    stars: 8
-    description: >-
-      MCP server over the Hotmart Developers API covering sales, subscriptions, club, products,
-      coupons, tickets and negotiation. Tool modules exist for club, coupons, negotiation,
-      products, sales, subscriptions and tickets. Authenticates with the caller's own Hotmart
-      client_id/client_secret.
-    note: >-
-      The repo carries specs/hotmart-api.json — a community-authored OpenAPI reconstructed from
-      Hotmart's prose documentation. It is NOT published by Hotmart and has deliberately not been
-      saved into openapi/ as Hotmart's contract; Hotmart publishes no OpenAPI.
-  - name: hotmart-cli
-    repo: https://github.com/murilloimparavel/hotmart-cli
-    official: false
-    description: >-
-      Community CLI + MCP server for Hotmart (products, sales, email marketing) driven from the
-      terminal. Third-party; see cli/ — Hotmart ships no first-party CLI either.
-
+- name: hotmart-mcp
+  repo: https://github.com/thaleslaray/hotmart-mcp
+  language: python
+  license: MIT
+  official: false
+  created: '2026-05-07'
+  last_push: '2026-05-14'
+  stars: 8
+  description: MCP server over the Hotmart Developers API covering sales, subscriptions, club, products,
+    coupons, tickets and negotiation. Tool modules exist for club, coupons, negotiation, products, sales,
+    subscriptions and tickets. Authenticates with the caller's own Hotmart client_id/client_secret.
+  note: The repo carries specs/hotmart-api.json — a community-authored OpenAPI reconstructed from Hotmart's
+    prose documentation. It is NOT published by Hotmart and has deliberately not been saved into openapi/
+    as Hotmart's contract; Hotmart publishes no OpenAPI.
+- name: hotmart-cli
+  repo: https://github.com/murilloimparavel/hotmart-cli
+  official: false
+  description: Community CLI + MCP server for Hotmart (products, sales, email marketing) driven from the
+    terminal. Third-party; see cli/ — Hotmart ships no first-party CLI either.
 crosswalk:
   emitted: false
-  reason: >-
-    A ToolCrosswalk binds MCP tools to backing OpenAPI operationIds. Hotmart publishes neither an
-    MCP server nor an OpenAPI, so there is nothing first-party on either side of the mapping.
-    Deriving one from a community server against a community-authored spec would assert a Hotmart
-    surface that does not exist.
-
+  reason: A ToolCrosswalk binds MCP tools to backing OpenAPI operationIds. Hotmart publishes neither an
+    MCP server nor an OpenAPI, so there is nothing first-party on either side of the mapping. Deriving
+    one from a community server against a community-authored spec would assert a Hotmart surface that
+    does not exist.
 gap:
-  summary: >-
-    Hotmart has a well-documented, stable, OAuth-secured REST API with an unusually complete set of
-    published request samples — and no machine-readable contract of any kind. An OpenAPI document
-    would let an MCP server, a tool crosswalk and generated SDKs all follow from one artifact.
-  recommendation: >-
-    Publish an OpenAPI 3.1 document at a stable URL on developers.hotmart.com, then an official MCP
-    server generated from it. Both are Hotmart's to publish; API Evangelist will not model them on
+  summary: Hotmart has a well-documented, stable, OAuth-secured REST API with an unusually complete set
+    of published request samples — and no machine-readable contract of any kind. An OpenAPI document would
+    let an MCP server, a tool crosswalk and generated SDKs all follow from one artifact.
+  recommendation: Publish an OpenAPI 3.1 document at a stable URL on developers.hotmart.com, then an official
+    MCP server generated from it. Both are Hotmart's to publish; API Evangelist will not model them on
     Hotmart's behalf.
-
 x-evidence:
   fetched: '2026-08-04'
   urls:
-    - https://github.com/thaleslaray/hotmart-mcp
-    - https://github.com/murilloimparavel/hotmart-cli
-    - https://github.com/Hotmart-Org
+  - https://github.com/thaleslaray/hotmart-mcp
+  - https://github.com/murilloimparavel/hotmart-cli
+  - https://github.com/Hotmart-Org
+deployment:
+  mode: none
+  verified: derived
+  checked: '2026-08-12'
+  source: catalog MCP census

@@ -13,6 +13,17 @@ description: >-
   events on two independently versioned payload schemas. Hotmart publishes no OpenAPI, no SDK and
   no CLI — the contract an integrator works from is prose documentation plus per-endpoint cURL,
   Node and Java request samples.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://hotmart.com/static/app-hotmart-next/images/share--general.jpg
 url: https://raw.githubusercontent.com/api-evangelist/hotmart/refs/heads/main/apis.yml
 x-type: company

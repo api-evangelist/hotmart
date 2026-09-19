@@ -1,28 +1,29 @@
-# Kin Score artifact — hotmart — 2026-08-17T064519
+# Kin Score artifact — hotmart — 2026-09-17T233623
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: hotmart
-  schema_version: 0.11.0
-  scored_at: '2026-08-17'
-  run_ts: 2026-08-17T064519
-  composite: 52.1
+  schema_version: 0.22.0
+  scored_at: '2026-09-17'
+  run_ts: 2026-09-17T233623
+  composite: 52.9
   band: developing
   facets:
     discoverability: 81.5
-    contract_quality: 51.6
-    governance: 3.1
-    operational_transparency: 76.3
-    developer_ergonomics: 62.5
-    commercial_clarity: 44.7
+    contract_quality: 48.1
+    contract_governance: 4.5
+    operational_transparency: 65.8
+    developer_ergonomics: 61.3
+    access_clarity: 44.7
   agent_readiness:
-    score: 42.8
-    band: agent-ready
+    score: 27.3
+    band: agent-aware
     dimensions:
       spec_presence: true
       agentic_access: false
-      mcp_server: derived
-      auth_clarity: true
+      reversibility_documented: false
+      mcp_server: false
+      auth_clarity: bearer
       idempotency: false
       error_semantics: documented
       openapi_examples: documented
@@ -33,6 +34,10 @@ kin_score:
       consent_identity: false
       agent_card: false
       dry_run_mode: false
+      delegated_identity: false
+      protected_resource_metadata: false
+      dynamic_client_registration: false
+      agentic_commerce: false
   regulatory:
     applies: true
     regime: Payments

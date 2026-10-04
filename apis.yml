@@ -197,7 +197,7 @@ apis:
   baseURL: https://developers.hotmart.com/events/api/v1
   tags:
   - Event
-  - Tickets
+  - Ticketing
   - Account
   - User Profile
   tags_raw:

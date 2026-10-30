@@ -64,5 +64,125 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Hotmart is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/hotmart_stock/
+Hotmart is a Brazilian creator-economy platform for producing, selling and delivering digital products — online courses, ebooks, mentorships, paid communities, events and, more recently, physical products. It bundles a hosted checkout, a marketplace, an affiliate network, a members-area LMS (Hotmart Club) and payment processing as merchant of record (HotPay), and sells into more than 180 countries. Hotmart Developers is the public REST API over that platform: OAuth 2.0 client-credentials authentication, product-area path prefixes (/payments, /club, /products, /physicalproducts, /events, /accounts, /user), cursor pagination, a sparse-fieldset `select` parameter, a 500-request-per-minute rate limit, a full-parity sandbox host, and a per-product webhook (postback) event surface carrying purchase, subscription, members-area and logistics events on two independently versioned payload schemas. Hotmart publishes no OpenAPI, no SDK and no CLI — the contract an integrator works from is prose documentation plus per-endpoint cURL, Node and Java request samples.
+
+**Areas:** Company · Creator Economy · Digital Products · Online Courses · E-Commerce · Payments · Subscription · Affiliate Marketing · Webhook · LMS · Brazil
+
+## Hotmart on APIs.io
+
+Everything profiled for Hotmart is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hotmart/](https://apis.io/providers/hotmart/)** — or go straight to one of the APIs or properties below.
+
+### APIs (8)
+
+- [Hotmart Authentication (OAuth 2.0)](https://apis.io/apis/hotmart/hotmart-authentication-oauth-20/) — The Hotmart authorization server. Exchanges a developer credential (client_id/client_secret, presented with HTTP Basic) for a short-lived OAuth 2.0…
+- [Hotmart Subscriptions API](https://apis.io/apis/hotmart/hotmart-subscriptions-api/) — Read and manage recurring subscriptions on a Hotmart product — list subscribers with status, plan and date filters, pull a subscriber's purchase history,…
+- [Hotmart Sales API](https://apis.io/apis/hotmart/hotmart-sales-api/) — Sales reporting and post-sale actions for a Hotmart producer — sales history, sales summary, per-transaction price breakdown, commission split across…
+- [Hotmart Payment Link API](https://apis.io/apis/hotmart/hotmart-payment-link-api/) — Create and list Hotmart payment links, attach additional offers and plans to a link, and charge a saved payment token by offer or by arbitrary value — the…
+- [Hotmart Products API](https://apis.io/apis/hotmart/hotmart-products-api/) — The product catalog surface — list products, read a product's offers and plans by ucode, update product configuration, and create, read and delete discount…
+- [Hotmart Club (Members Area) API](https://apis.io/apis/hotmart/hotmart-club-members-area-api/) — The members-area / LMS surface. Lists Club modules and pages for a subdomain, lists enrolled users, and reads a user's lesson-by-lesson progress — the…
+- [Hotmart Physical Products API](https://apis.io/apis/hotmart/hotmart-physical-products-api/) — The logistics/fulfillment partner surface for physical products sold through Hotmart. Manages partner credentials, creates and updates products and…
+- [Hotmart Events, Account and User API](https://apis.io/apis/hotmart/hotmart-events-account-and-user-api/) — The smaller documented surfaces — event ticket information and participant lists (/events/api/v1), account information (/accounts/api/v1/info), the…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Hotmart Webhooks](https://apis.io/asyncapis/hotmart/hotmart-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [hotmart-mcp.yml](https://apis.io/servers/hotmart/hotmart-mcp-yml/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Hotmart Authentication](https://apis.io/security/hotmart/hotmart-authentication/)
+- [Hotmart Domain Security](https://apis.io/security/hotmart/hotmart-domain-security/)
+- [Hotmart Vulnerability Disclosure](https://apis.io/security/hotmart/hotmart-vulnerability-disclosure/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Hotmart Rate Limits](https://apis.io/rate-limits/hotmart/hotmart-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://hotmart.com/en)
+- [Documentation](https://developers.hotmart.com/docs/en/)
+- [Getting started](https://developers.hotmart.com/docs/en/start/)
+- [API reference](https://developers.hotmart.com/docs/en/)
+- [Pricing](https://hotmart.com/en/pricing)
+- [Sign up](https://hotmart.com/en/signup)
+- [Support](https://help.hotmart.com/en)
+- [Changelog](https://developers.hotmart.com/docs/en/changelog)
+- [Blog](https://hotmart.com/en/blog)
+- [Security](https://hotmart.com/en/legal/cybersecurity-policy)
+- [Terms of service](https://hotmart.com/en/legal/terms-of-use)
+- [Privacy policy](https://hotmart.com/en/legal/privacy-policy)
+- [GitHub](https://github.com/Hotmart-Org)
+- [Status](https://status.hotmart.com/)
+
+## API Evangelist rating
+
+**Kin Score 50.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 78.6 |
+| Contract quality | 45.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 65.8 |
+| Developer ergonomics | 61.3 |
+| Access clarity | 44.7 |
+
+**Agent readiness 27.3** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 27.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hotmart/](https://apis.io/providers/hotmart/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Hotmart: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hotmart/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
